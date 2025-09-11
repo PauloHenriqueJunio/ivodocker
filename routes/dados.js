@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+// Importa os modelos para que possamos usá-los nas rotas.
 const { Item, Categoria, Fabricante } = require('../models');
 
-// Rota para a tela de dados
+// Rota para a tela de dados.
 router.get('/', async (req, res) => {
     try {
         const dadosDoBanco = await Item.findAll({
@@ -18,7 +19,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Rota para o Formulário de inclusão
+// Rota para o formulário de inclusão.
 router.get('/formulario', async (req, res) => {
     res.render('formulario', {
         titulo: 'Cadastrar Novo Item',
@@ -26,7 +27,7 @@ router.get('/formulario', async (req, res) => {
     });
 });
 
-// Rota para o Formulário de edição
+// Rota para o formulário de edição de um item específico.
 router.get('/formulario/:id', async (req, res) => {
     let item = null;
     try {
@@ -46,7 +47,7 @@ router.get('/formulario/:id', async (req, res) => {
     });
 });
 
-// Rota para SALVAR um NOVO item
+// Rota para SALVAR um novo item.
 router.post('/salvar-item', async (req, res) => {
     try {
         const { nome, descricao, categoriaId, fabricanteId } = req.body;
@@ -59,7 +60,7 @@ router.post('/salvar-item', async (req, res) => {
     }
 });
 
-// Rota para ATUALIZAR um item que ja existe
+// Rota para ATUALIZAR um item que já existe.
 router.post('/salvar-item/:id', async (req, res) => {
     try {
         const { nome, descricao, categoriaId, fabricanteId } = req.body;
@@ -78,7 +79,7 @@ router.post('/salvar-item/:id', async (req, res) => {
     }
 });
 
-// Rota para EXCLUIR um item
+// Rota para EXCLUIR um item.
 router.post('/deletar-item/:id', async (req, res) => {
     try {
         const itemId = req.params.id;
