@@ -1,11 +1,18 @@
-
 const { Sequelize } = require('sequelize');
-const path = require('path');
+const dotenv = require('dotenv');
 
-const sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: path.join(__dirname, '..', 'database.sqlite'),
-    logging: false,
-});
+// Carrega no .env as variaveis de ambiente
+dotenv.config();
 
-module.exports = sequelize; 
+const sequelize = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,
+    {
+        host: process.env.DB_HOST,
+        dialect: 'mysql',
+        logging: false, // true para ver os logs do SQL
+    }
+);
+
+module.exports = sequelize;
