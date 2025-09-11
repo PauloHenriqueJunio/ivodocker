@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-// Importa os modelos para que possamos usá-los nas rotas.
 const { Item, Categoria, Fabricante } = require('../models');
 
 // Rota para a tela de dados.
