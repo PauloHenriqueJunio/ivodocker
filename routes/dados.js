@@ -1,61 +1,110 @@
 const express = require('express');
 const router = express.Router();
-const { Item, Categoria, Fabricante } = require('../models');
+const { Post, Categoria, Usuario } = require('../models');
 
-// Rota para a tela de dados.
+// Listar todos os posts
 router.get('/', async (req, res) => {
     try {
-        const dadosDoBanco = await Item.findAll({
-            include: [Categoria, Fabricante]
+        const posts = await Post.findAll({
+            include: [Categoria, Usuario],
+            order: [['createdAt', 'DESC']]
         });
         res.render('dados', {
-            titulo: 'Gerenciamento de Dados',
-            dadosDoBanco: dadosDoBanco
+            titulo: 'Blog - Postagens',
+            posts: posts
         });
     } catch (error) {
-        console.error('Erro ao buscar dados:', error);
-        res.status(500).send('Erro ao carregar os dados.');
+        console.error('Erro ao buscar posts:', error);
+        res.status(500).send('Erro ao carregar os posts.');
     }
 });
 
-// Rota para o formulário de inclusão.
+// Formulário para novo post
 router.get('/formulario', async (req, res) => {
+    const categorias = await Categoria.findAll();
+    const usuarios = await Usuario.findAll();
     res.render('formulario', {
-        titulo: 'Cadastrar Novo Item',
-        item: null
+        titulo: 'Novo Post',
+        post: null,
+        categorias,
+        usuarios
     });
 });
 
-// Rota para o formulário de edição de um item específico.
+// Formulário para editar post
 router.get('/formulario/:id', async (req, res) => {
-    let item = null;
     try {
-        item = await Item.findByPk(req.params.id, {
-            include: [Categoria, Fabricante]
+        const post = await Post.findByPk(req.params.id, {
+            include: [Categoria, Usuario]
         });
-        if (!item) {
-            return res.status(404).send('Item não encontrado para edição.');
+        if (!post) {
+            return res.status(404).send('Post não encontrado para edição.');
         }
+        const categorias = await Categoria.findAll();
+        const usuarios = await Usuario.findAll();
+        res.render('formulario', {
+            titulo: 'Editar Post',
+            post,
+            categorias,
+            usuarios
+        });
     } catch (error) {
-        console.error('Erro ao buscar item para edição:', error);
-        return res.status(500).send('Erro ao carregar item para edição.');
+        console.error('Erro ao buscar post para edição:', error);
+        res.status(500).send('Erro ao carregar post para edição.');
     }
-    res.render('formulario', {
-        titulo: 'Editar Item',
-        item: item
-    });
 });
 
-// Rota para SALVAR um novo item.
-router.post('/salvar-item', async (req, res) => {
+// Criar novo post
+router.post('/salvar-post', async (req, res) => {
     try {
-        const { nome, descricao, categoriaId, fabricanteId } = req.body;
-        await Item.create({ nome, descricao, categoriaId, fabricanteId });
-        console.log('Novo item salvo com sucesso!');
+        if (!req.session.usuarioLogado || !req.session.usuarioLogado.id) {
+            return res.status(403).send('Você precisa estar logado para criar um post.');
+        }
+        const { titulo, conteudo, categoriaId } = req.body;
+        await Post.create({
+            titulo,
+            conteudo,
+            categoriaId,
+            usuarioId: req.session.usuarioLogado.id
+        });
         res.redirect('/dados');
     } catch (error) {
-        console.error('Erro ao salvar o item:', error);
-        res.status(500).send('Erro ao salvar o item.');
+        console.error('Erro ao salvar o post:', error);
+        res.status(500).send('Erro ao salvar o post.');
+    }
+});
+
+// Atualizar post
+router.post('/editar-post/:id', async (req, res) => {
+    try {
+        if (!req.session.usuarioLogado || !req.session.usuarioLogado.id) {
+            return res.status(403).send('Você precisa estar logado para editar um post.');
+        }
+        const { titulo, conteudo, categoriaId } = req.body;
+        await Post.update(
+            {
+                titulo,
+                conteudo,
+                categoriaId,
+                usuarioId: req.session.usuarioLogado.id
+            },
+            { where: { id: req.params.id } }
+        );
+        res.redirect('/dados');
+    } catch (error) {
+        console.error('Erro ao editar o post:', error);
+        res.status(500).send('Erro ao editar o post.');
+    }
+});
+
+// Excluir post
+router.post('/excluir-post/:id', async (req, res) => {
+    try {
+        await Post.destroy({ where: { id: req.params.id } });
+        res.redirect('/dados');
+    } catch (error) {
+        console.error('Erro ao excluir o post:', error);
+        res.status(500).send('Erro ao excluir o post.');
     }
 });
 

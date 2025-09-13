@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 
 # copia os arquivos de dependência e instala as dependências
 COPY package*.json ./
-RUN npm install --omit=dev
+RUN npm install 
 
 # 2: Execução
 # Usa uma imagem Node.js minimalista para produção, sem ferramentas de build

@@ -1,23 +1,27 @@
 const sequelize = require('../config/database');
-const Item = require('./Item');
+const Post = require('./Post');
 const Categoria = require('./Categoria');
-const Fabricante = require('./Fabricante');
 const Usuario = require('./Usuario');
+const Comentario = require('./Comentario');
 
-// Define as associações entre os modelos
-// Item e Categoria: um item pertence a uma categoria
-Item.belongsTo(Categoria, { foreignKey: 'categoriaId' });
-Categoria.hasMany(Item, { foreignKey: 'categoriaId' });
+// Associações para Blog
+Post.belongsTo(Categoria, { foreignKey: 'categoriaId' });
+Categoria.hasMany(Post, { foreignKey: 'categoriaId' });
 
-// Item e Fabricante: um item pertence a um fabricante
-Item.belongsTo(Fabricante, { foreignKey: 'fabricanteId' });
-Fabricante.hasMany(Item, { foreignKey: 'fabricanteId' });
+Post.belongsTo(Usuario, { foreignKey: 'usuarioId' });
+Usuario.hasMany(Post, { foreignKey: 'usuarioId' });
 
-// Exporta todos os modelos para serem usados em outros arquivos
+// Associações para Comentário
+Comentario.belongsTo(Post, { foreignKey: 'postId' });
+Post.hasMany(Comentario, { foreignKey: 'postId' });
+
+Comentario.belongsTo(Usuario, { foreignKey: 'usuarioId' });
+Usuario.hasMany(Comentario, { foreignKey: 'usuarioId' });
+
 module.exports = {
     sequelize,
-    Item,
+    Post,
     Categoria,
-    Fabricante,
-    Usuario
+    Usuario,
+    Comentario
 };

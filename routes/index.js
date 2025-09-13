@@ -1,11 +1,22 @@
 const express = require('express');
 const router = express.Router();
+const { Post, Categoria, Usuario } = require('../models');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-    res.render('index', {
-        titulo: 'Curiosidades da Tecnologia'
-    });
+// Página inicial exibe posts do blog
+router.get('/', async (req, res) => {
+    try {
+        const posts = await Post.findAll({
+            include: [Categoria, Usuario],
+            order: [['createdAt', 'DESC']]
+        });
+        res.render('index', {
+            titulo: 'Blog - Página Inicial',
+            posts: posts
+        });
+    } catch (error) {
+        console.error('Erro ao buscar posts:', error);
+        res.status(500).send('Erro ao carregar os posts.');
+    }
 });
 
 module.exports = router;

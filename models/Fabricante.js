@@ -21,4 +21,5 @@ const Fabricante = sequelize.define('Fabricante', {
     timestamps: true,
 });
 
-module.exports = Fabricante;
+// Este arquivo foi removido pois o modelo Fabricante não é mais utilizado no contexto de blog.
+module.exports = null; // Exportando null para evitar erros de importação.

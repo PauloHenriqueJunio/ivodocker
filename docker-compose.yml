@@ -1,10 +1,17 @@
+version: '3.8'
+
 services:
   app:
     build: .
     ports:
       - "3000:3000"
+    # Esta seção de volumes foi corrigida.
+    # A primeira linha monta o seu código local no container.
+    # A segunda linha cria um volume anônimo para a pasta node_modules,
+    # garantindo que ela não seja substituída pelo conteúdo local.
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
     env_file:
       - .env
     depends_on:
