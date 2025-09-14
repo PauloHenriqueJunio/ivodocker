@@ -96,7 +96,7 @@ Para rodar esta aplicação, é altamente recomendável usar o Docker para garan
 2. **Crie o arquivo de variáveis de ambiente:**
 Copie o arquivo de exemplo e preencha com suas credenciais.
 
-
+```bash
 cp .env.example .env
 ```
 ```bash
@@ -127,7 +127,7 @@ Gerenciar Dados: http://localhost:3000/dados
 ```
 ---
 ###
-🧑‍💻 Autores
+🧑‍💻 ***Autores***
 Paulo Henrique Junio dos Santos Lima
 
 Lucas Pereira de Araujo
