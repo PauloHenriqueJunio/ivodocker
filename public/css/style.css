@@ -75,13 +75,9 @@ header > nav > a:hover {
 .welcome-message-header {
     color: var(--cor-destaque);
     font-family: var(--fonte-secundaria);
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 10px 15px black;
-    margin: 15px 1100px 15px;
     font-weight: 700;
     font-size: 1.5em;
-    padding: 15px 0px;
+    padding: 10px 0;
     margin-bottom: 20px;
 }
 
@@ -131,7 +127,7 @@ footer {
     margin-top: 30px;
 }
 
-
+/* Estilos de Formulário */
 form {
     padding: 20px;
     background-color: var(--cor-secundaria);
@@ -190,7 +186,7 @@ form button[type="submit"]:hover {
     transform: translateY(-2px);
 }
 
-
+/* Ajustes de Layout */
 .post-card {
     background-color: #333;
     border: 1px solid #444;
@@ -202,10 +198,14 @@ form button[type="submit"]:hover {
 }
 
 .post-card h3 {
-    color: var(--cor-texto-claro);
-    margin-bottom: 8px;
+    text-align: center;
+    font-size: 1.6em;
+    color: white;
     font-family: var(--fonte-secundaria);
     font-weight: 700;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #444;
 }
 
 .post-card p {
@@ -213,59 +213,112 @@ form button[type="submit"]:hover {
     line-height: 1.5;
 }
 
+.post-card .post-conteudo {
+    margin-top: 10px;
+    font-size: 1.1em;
+    color: var(--cor-texto-claro);
+    line-height: 1.6;
+}
+.post-card p b {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+}
+
 .item-actions {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
     margin-top: 15px;
 }
 
-.btn-editar, .btn-excluir, .btn-adicionar {
-    padding: 10px 10px;
+.item-actions a,
+.item-actions form {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.item-actions a,
+.item-actions form button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 8px 12px;
     border-radius: 5px;
-    text-decoration: none;
-    margin-right: 5px;
-    color: white;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    border: none;
-    cursor: pointer;
-    min-width: 80px;
     font-size: 1em;
-    display: inline-block;
     text-align: center;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.item-actions a {
+    background-color: #f1c40f;
+    color: white;
+}
+.item-actions a:hover {
+    background-color: #d8ac0b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.item-actions form button {
+    background-color: var(--cor-erro);
+    color: white;
+}
+.item-actions form button:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 a.btn-adicionar {
     background-color: var(--cor-sucesso);
+    padding: 8px 12px;
     margin-bottom: 25px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    min-width: 80px;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 a.btn-adicionar:hover {
     background-color: #219d53;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.btn-editar {
-    background-color: #f1c40f;
+.post-meta {
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 10px;
+    font-style: italic;
 }
 
-.btn-editar:hover {
-    background-color: #d8ac0b;
+/* Estilos para mensagens de sucesso e erro */
+.message {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
-
-.btn-excluir {
+.message.success {
+    background-color: var(--cor-sucesso);
+    color: white;
+}
+.message.error {
     background-color: var(--cor-erro);
-}
-
-.btn-excluir:hover {
-    background-color: #c0392b;
-}
-
-.item-actions form {
-    display: inline;
-    padding: 0;
-    margin: 0;
-    background-color: transparent;
-    box-shadow: none;
-}
-
-ul {
-    padding-left: 0;
+    color: white;
 }

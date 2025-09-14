@@ -9,11 +9,12 @@
     <h2>Postagens Recentes</h2>
 
     <% if (posts && posts.length > 0) { %>
-        <ul>
+        <ul style="list-style-type: none; padding: 0;">
             <% posts.forEach(post => { %>
                 <li class="post-card">
                     <h3><%= post.titulo %></h3>
-                    <p><%= post.conteudo.substring(0, 200) %>...</p>
+                    <p><b>Descrição do POST:</b></p>
+                    <p class="post-conteudo"><%= post.conteudo %></p>
                     <div class="post-meta">
                         Categoria: <%= post.Categoria ? post.Categoria.nome : 'Sem categoria' %> | Autor: <%= post.Usuario ? post.Usuario.nome : 'Desconhecido' %>
                     </div>
