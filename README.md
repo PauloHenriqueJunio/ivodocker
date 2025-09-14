@@ -99,9 +99,6 @@ Copie o arquivo de exemplo e preencha com suas credenciais.
 ```bash
 cp .env.example .env
 ```
-```bash
-cp .env.example .env
-```
 Ou crie manualmente um arquivo ".env" com as variáveis:
 ```bash
 DB_HOST=mysql_db
@@ -127,7 +124,8 @@ Gerenciar Dados: http://localhost:3000/dados
 ```
 ---
 ###
-🧑‍💻 ***Autores***
+🧑‍💻 **Autores:**
+
 Paulo Henrique Junio dos Santos Lima
 
 Lucas Pereira de Araujo
