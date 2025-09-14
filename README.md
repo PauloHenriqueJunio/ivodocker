@@ -123,9 +123,8 @@ Página Inicial: http://localhost:3000
 Gerenciar Dados: http://localhost:3000/dados
 ```
 ---
-###
-🧑‍💻 <h2>**Autores:**</h2>
-* Paulo Henrique Junio dos Santos Lima
-* Lucas Pereira de Araujo
-* Gerson A. da Silva Neto
 
+### 🧑‍💻 Autores
+* **Paulo Henrique Junio dos Santos Lima**
+* **Lucas Pereira de Araujo**
+* **Gerson A. da Silva Neto**
