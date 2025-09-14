@@ -46,7 +46,7 @@ Este projeto foi construído com as seguintes tecnologias e ferramentas:
 ### 📦 Estrutura do Projeto
 
 A estrutura de pastas e arquivos do projeto está organizada da seguinte forma:
-
+```bash
 minha-app-crud/
 ├── config/
 │   └── database.js
@@ -74,7 +74,7 @@ minha-app-crud/
 ├── Dockerfile
 ├── docker-compose.yml
 └── .env.example
-
+```
 
 ---
 
@@ -124,7 +124,7 @@ Gerenciar Dados: http://localhost:3000/dados
 ```
 ---
 ###
-🧑‍💻 **Autores:**
+🧑‍💻 <h2>**Autores:**</h2>
 
 Paulo Henrique Junio dos Santos Lima
 
