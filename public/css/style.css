@@ -75,8 +75,13 @@ header > nav > a:hover {
 .welcome-message-header {
     color: var(--cor-destaque);
     font-family: var(--fonte-secundaria);
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px black;
+    margin: 15px 1100px 15px;
     font-weight: 700;
     font-size: 1.5em;
+    padding: 15px 0px;
     margin-bottom: 20px;
 }
 
@@ -126,7 +131,7 @@ footer {
     margin-top: 30px;
 }
 
-/* Estilos de Formulário */
+
 form {
     padding: 20px;
     background-color: var(--cor-secundaria);
@@ -185,7 +190,7 @@ form button[type="submit"]:hover {
     transform: translateY(-2px);
 }
 
-/* Ajustes de Layout */
+
 .post-card {
     background-color: #333;
     border: 1px solid #444;
@@ -211,13 +216,11 @@ form button[type="submit"]:hover {
 .item-actions {
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
-/* Estilos dos Botões */
 .btn-editar, .btn-excluir, .btn-adicionar {
-    padding: 8px 12px;
+    padding: 10px 10px;
     border-radius: 5px;
     text-decoration: none;
     margin-right: 5px;
@@ -225,13 +228,15 @@ form button[type="submit"]:hover {
     transition: background-color 0.3s ease, transform 0.2s ease;
     border: none;
     cursor: pointer;
+    min-width: 80px;
     font-size: 1em;
     display: inline-block;
+    text-align: center;
 }
 
 a.btn-adicionar {
     background-color: var(--cor-sucesso);
-    margin-bottom: 25px; /* Adicionado mais espaço aqui */
+    margin-bottom: 25px;
 }
 a.btn-adicionar:hover {
     background-color: #219d53;
@@ -253,7 +258,6 @@ a.btn-adicionar:hover {
     background-color: #c0392b;
 }
 
-/* Estilo para a tag form do botão de excluir para remover a "borda branca" */
 .item-actions form {
     display: inline;
     padding: 0;
@@ -263,5 +267,5 @@ a.btn-adicionar:hover {
 }
 
 ul {
-    padding-left: 0; /* Removido o padding padrão da ul */
+    padding-left: 0;
 }

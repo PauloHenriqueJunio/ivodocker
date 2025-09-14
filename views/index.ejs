@@ -1,25 +1,18 @@
 <%- include('./layouts/header') %>
 
 <article class="artc2">
-    <h1><%= titulo %></h1>
-    <% if (usuarioLogado) { %>
-        <a href="/dados/formulario" class="btn-adicionar">Adicionar Novo Post</a>
-    <% } %>
-
-    <h2>Postagens Recentes</h2>
-    <% if (posts && posts.length > 0) { %>
+    <h1>Curiosidades da Tecnologia</h1>
+    <p>Tudo aquilo que você sempre quis saber sobre o mundo Tech, em um único lugar</p>
+    
+        <% if (posts && posts.length > 0) { %>
         <ul style="list-style-type: none; padding: 0;">
             <% posts.forEach(post => { %>
-                <li style="background-color: #e6ffe6; border: 1px solid #aaffaa; margin-bottom: 10px; padding: 10px; border-radius: 8px; text-align: left;">
-                    <h3 style="color: #063d1e; margin-bottom: 5px;"><%= post.titulo %></h3>
-                    <p><%= post.conteudo.substring(0, 200) %>...</p>
-                    <p style="font-size: 0.9em; color: #555;">Categoria: <%= post.Categoria ? post.Categoria.nome : 'Sem categoria' %> | Autor: <%= post.Usuario ? post.Usuario.nome : 'Desconhecido' %></p>
-                    <p style="font-size: 0.8em; color: #555;">Criado em: <%= post.createdAt.toLocaleString() %></p>
-                    <a href="/dados/formulario/<%= post.id %>" class="btn-editar">Editar</a>
-                    <form action="/dados/excluir-post/<%= post.id %>" method="POST" style="display:inline; margin-left: 10px;">
-                        <button type="submit" class="btn-excluir" style="background-color: #dc3545; color: white; border: none; padding: 6px 10px; border-radius: 5px; cursor: pointer;"
-                    onclick="return confirm('Tem certeza que deseja excluir este post?');">Excluir</button>
-                    </form>
+                <li class="post-card">
+                    <h3 class="adh"><%= post.titulo %></h3>
+                    <p class="testelala"><%= post.conteudo.substring(0, 200) %>...</p>
+                    <p style="font-size: 0.9em; color: #888;">
+                        Categoria: <%= post.Categoria ? post.Categoria.nome : 'Sem categoria' %>
+                    </p>
                 </li>
             <% }); %>
         </ul>
