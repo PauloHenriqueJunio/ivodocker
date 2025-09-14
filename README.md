@@ -1,127 +1,138 @@
-# Projeto de Programação Web
+# Projeto de Programação Web - Blog com Docker
 
 [![Status: Ativo](https://img.shields.io/badge/status-ativo-green)](https://github.com/PauloHenriqueJunio/ivodocker)
-[![Tecnologias](https://img.shields.io/badge/tecnologias-Node.js%2C%20Express%2C%20EJS%2C%20Sequelize%2C%20MySQL%2C%20Docker-blue)](https://github.com/PauloHenriqueJunio/ivodocker)
+[![Tecnologias](https://img.shields.io/badge/tecnologias-Node.js%2C%20Express%2C%20Sequelize%2C%20MySQL%2C%20Docker-blue)](https://github.com/PauloHenriqueJunio/ivodocker)
 
-Este é um projeto de aplicação web FullStack desenvolvido para fins acadêmicos no IFAL. O objetivo principal foi criar uma aplicação web utilizando uma pilha de tecnologias modernas para gerenciar posts de um blog.
+Este é um projeto de aplicação web FullStack desenvolvido para fins acadêmicos. O objetivo principal foi criar um blog funcional, com autenticação e gerenciamento de posts, utilizando uma pilha de tecnologias modernas e totalmente conteinerizado com Docker.
 
 ---
 
 ### 🚀 Funcionalidades
 
-A aplicação contempla as seguintes funcionalidades principais:
-
-* **Tela Inicial:** Uma página de conteúdo estático (`index.ejs`) sobre a história do mascote do Android.
-
-* **Tela de Dados (CRUD):** Uma página para visualização e manutenção (Criação, Leitura, Atualização e Exclusão) de posts de um blog.
-
-* **Formulário Reutilizável:** Um formulário para adicionar novos posts ou editar os existentes.
-
-* **Autenticação:** Sistema de login e cadastro de usuários com `bcrypt`.
-
-* **Navegação:** Menu de navegação para as principais seções da aplicação.
+* **Gerenciamento de Posts (CRUD):** Sistema completo para Criar, Ler, Atualizar e Excluir postagens.
+* **Autenticação de Usuários:** Páginas de cadastro e login, com armazenamento seguro de senhas (bcrypt) e gerenciamento de sessão.
+* **Sistema de Categorias:** Associação de posts a categorias pré-definidas.
+* **Ambiente Padronizado:** Uso de Docker, Docker Compose e Devcontainer para garantir um ambiente de desenvolvimento e execução consistente e de fácil configuração.
 
 ---
 
 ### 💻 Tecnologias Utilizadas
 
-Este projeto foi construído com as seguintes tecnologias e ferramentas:
-
-* **Node.js:** Ambiente de execução JavaScript.
-
-* **Express.js:** Framework web para construir a API e as rotas.
-
-* **EJS (Embedded JavaScript):** Engine de template para renderização de views HTML dinâmicas.
-
-* **Sequelize:** ORM (Object-Relational Mapper) para Node.js.
-
-* **MySQL:** Banco de dados relacional para persistência dos dados.
-
-* **Docker & Docker Compose:** Ferramentas para orquestração de contêineres e gerenciamento do ambiente de desenvolvimento.
-
-* **HTML5 & CSS3:** Linguagens de marcação e estilização.
+* **Backend:** Node.js com Express.js
+* **Frontend:** EJS (Embedded JavaScript) para renderização de views no servidor.
+* **Banco de Dados:** MySQL 8.0
+* **ORM:** Sequelize para mapeamento objeto-relacional.
+* **Logging:** Winston para logs estruturados, seguindo as práticas do 12-Factor App.
+* **Containerização:** Docker, Docker Compose
+* **Ambiente de Desenvolvimento:** VS Code Dev Containers
 
 ---
 
 ### 📦 Estrutura do Projeto
 
 A estrutura de pastas e arquivos do projeto está organizada da seguinte forma:
+
 ```bash
-minha-app-crud/
+.
+├── .devcontainer/
+│   └── devcontainer.json
 ├── config/
-│   └── database.js
+│   ├── database.js
+│   └── logger.js
 ├── models/
-│   ├── index.js
 │   ├── Categoria.js
+│   ├── Comentario.js
+│   ├── index.js
 │   ├── Post.js
 │   └── Usuario.js
 ├── public/
 │   ├── css/
 │   │   └── style.css
 │   └── imagens/
-│       └── ...
 ├── routes/
+│   ├── auth.js
 │   ├── dados.js
 │   └── index.js
 ├── views/
 │   ├── layouts/
-│   │   ├── header.ejs
-│   │   └── footer.ejs
+│   │   ├── footer.ejs
+│   │   └── header.ejs
+│   ├── cadastro.ejs
 │   ├── dados.ejs
 │   ├── formulario.ejs
-│   └── index.ejs
+│   ├── index.ejs
+│   └── login.ejs
+├── .env
 ├── app.js
-├── Dockerfile
+├── criar_categorias.js
 ├── docker-compose.yml
-└── .env.example
+├── Dockerfile
+├── package-lock.json
+├── package.json
+└── README.md
 ```
+
+*(Observação: Os arquivos `Fabricante.js` e `Item.js` são legados de uma versão anterior do projeto).*
 
 ---
 
-### ⚙️ Como Executar o Projeto Localmente
+### 🚀 Ambiente de Desenvolvimento com Devcontainer (Recomendado)
 
-Para rodar esta aplicação, é altamente recomendável usar o Docker para garantir que você tenha um ambiente consistente.
+Esta é a forma **recomendada** para desenvolver no projeto. O Devcontainer cria um ambiente completo e padronizado dentro do Docker, com todas as ferramentas (Node.js, Git) e extensões do VS Code necessárias já instaladas.
 
 #### Pré-requisitos
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+* [Visual Studio Code](https://code.visualstudio.com/)
+* A extensão **[Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)** da Microsoft no VS Code.
 
-* **Docker Desktop:** Certifique-se de ter o Docker Desktop instalado e em execução.
+#### Como Iniciar o Ambiente
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/PauloHenriqueJunio/ivodocker.git](https://github.com/PauloHenriqueJunio/ivodocker.git)
+    cd ivodocker
+    ```
+
+2.  **Abra a pasta do projeto no VS Code.**
+
+3.  O VS Code detectará a configuração do Devcontainer e mostrará uma notificação. Clique em **"Reopen in Container"**.
+
+4.  **Aguarde a construção do ambiente.** Na primeira vez, pode demorar alguns minutos.
+
+5.  **Pronto!** Seu VS Code estará conectado ao contêiner. Para iniciar a aplicação, abra o terminal integrado (`Ctrl + '`) e rode:
+    ```bash
+    node app.js
+    ```
+    Acesse o site em `http://localhost:3000`.
+
+---
+
+### ⚙️ Executando Apenas com Docker Compose (Alternativo)
+
+Se você deseja apenas **rodar** a aplicação sem o ambiente de desenvolvimento do VS Code, siga os passos abaixo.
+
+#### Pré-requisitos
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 #### Passo a Passo
 
-1. **Clone o repositório:**
-```bash
-   git clone [https://github.com/PauloHenriqueJunio/ivodocker.git](https://github.com/PauloHenriqueJunio/ivodocker.git)
-   cd ivodocker
-```
-2. **Crie o arquivo de variáveis de ambiente:**
-Copie o arquivo de exemplo e preencha com suas credenciais.
+1.  **Clone o repositório** (se ainda não o fez).
 
-```bash
-cp .env.example .env
-```
-Ou crie manualmente um arquivo ".env" com as variáveis:
-```bash
-DB_HOST=mysql_db
-DB_USER=root
-DB_PASSWORD=password
-DB_NAME=dockerdb
-```
+2.  **Crie o arquivo de variáveis de ambiente:** Na raiz do projeto, crie um arquivo chamado `.env` e copie o conteúdo abaixo para ele.
+    ```env
+    DB_HOST=mysql_db
+    DB_USER=root
+    DB_PASSWORD=password
+    DB_NAME=dockerdb
+    ```
 
-Inicie os contêineres:
-```bash
-docker compose up --build
-```
-Este comando irá construir as imagens e iniciar o servidor e o banco de dados.
+3.  **Inicie os contêineres:** No seu terminal, na raiz do projeto, execute:
+    ```bash
+    docker compose up --build
+    ```
+    Este comando irá construir as imagens e iniciar o servidor e o banco de dados.
 
-Você verá uma mensagem no terminal indicando que o servidor está rodando.
+4.  **Acesse a aplicação:** Abra seu navegador e acesse `http://localhost:3000`.
 
-Acesse a aplicação:
-Abra seu navegador e acesse as URLs abaixo:
-```bash
-Página Inicial: http://localhost:3000
-
-Gerenciar Dados: http://localhost:3000/dados
-```
 ---
 
 ### 🧑‍💻 Autores
