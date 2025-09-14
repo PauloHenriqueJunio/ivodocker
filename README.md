@@ -3,7 +3,7 @@
 [![Status: Ativo](https://img.shields.io/badge/status-ativo-green)](https://github.com/PauloHenriqueJunio/ivodocker)
 [![Tecnologias](https://img.shields.io/badge/tecnologias-Node.js%2C%20Express%2C%20EJS%2C%20Sequelize%2C%20MySQL%2C%20Docker-blue)](https://github.com/PauloHenriqueJunio/ivodocker)
 
-Este é um projeto de aplicação web FullStack desenvolvido para a disciplina de Programação Web (PWEB) no IFAL. O objetivo principal foi criar uma aplicação web utilizando uma pilha de tecnologias modernas para gerenciar posts de um blog.
+Este é um projeto de aplicação web FullStack desenvolvido para fins acadêmicos no IFAL. O objetivo principal foi criar uma aplicação web utilizando uma pilha de tecnologias modernas para gerenciar posts de um blog.
 
 ---
 
@@ -48,32 +48,32 @@ Este projeto foi construído com as seguintes tecnologias e ferramentas:
 A estrutura de pastas e arquivos do projeto está organizada da seguinte forma:
 
 minha-app-crud/
-├── config/             # Configurações da aplicação
+├── config/
 │   └── database.js
-├── models/             # Modelos do Sequelize
+├── models/
 │   ├── index.js
 │   ├── Categoria.js
 │   ├── Post.js
 │   └── Usuario.js
-├── public/             # Arquivos estáticos (CSS, imagens, etc.)
+├── public/
 │   ├── css/
 │   │   └── style.css
 │   └── imagens/
 │       └── ...
-├── routes/             # Rotas da API
+├── routes/
 │   ├── dados.js
 │   └── index.js
-├── views/              # Templates EJS
+├── views/
 │   ├── layouts/
 │   │   ├── header.ejs
 │   │   └── footer.ejs
 │   ├── dados.ejs
 │   ├── formulario.ejs
 │   └── index.ejs
-├── app.js              # Arquivo principal do servidor
-├── Dockerfile          # Instruções para construir a imagem Docker
-├── docker-compose.yml  # Configuração do Docker Compose
-└── .env.example        # Exemplo de arquivo de variáveis de ambiente
+├── app.js
+├── Dockerfile
+├── docker-compose.yml
+└── .env.example
 
 ---
 
@@ -94,13 +94,18 @@ cd ivodocker
 
 2. **Crie o arquivo de variáveis de ambiente:**
 Copie o arquivo de exemplo e preencha com suas credenciais.
+
 cp .env.example .env
 
-(Ou crie manualmente um arquivo `.env` com as variáveis que você me enviou).
+**Ou crie manualmente um arquivo `.env` com as variáveis:**
+DB_HOST=mysql_db
+DB_USER=root
+DB_PASSWORD=password
+DB_NAME=dockerdb
 
 3. **Inicie os contêineres:**
-Este comando irá construir as imagens e iniciar o servidor e o banco de dados.
 docker compose up --build
+Este comando irá construir as imagens e iniciar o servidor e o banco de dados.
 
 Você verá uma mensagem no terminal indicando que o servidor está rodando.
 
