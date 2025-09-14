@@ -3,8 +3,9 @@ const app = express();
 const path = require('path');
 const session = require('express-session');
 const sequelize = require('./config/database');
-require('./models'); // Garante que as associações Sequelize sejam registradas
+require('./models');
 const { Post, Categoria, Usuario } = require('./models');
+const logger = require('./config/logger');
 
 // Configuração do express-session
 app.use(session({
@@ -47,12 +48,13 @@ app.use('/', authRouter);
 // Sincroniza com os bancos de dados e inicia o servidor
 sequelize.sync({ force: false })
     .then(() => {
-        console.log('Banco de dados sincronizado.');
+        logger.info('Banco de dados sincronizado com sucesso.');
+
         const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
-            console.log(`Servidor rodando em http://localhost:${PORT}`);
+            logger.info(`Servidor rodando em http://localhost:${PORT}`);
         });
     })
     .catch(err => {
-        console.error('Erro ao sincronizar o banco de dados:', err);
+        logger.error('Erro ao sincronizar o banco de dados:', { message: err.message });
     });

@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { Post, Categoria, Usuario } = require('../models');
+const logger = require('../config/logger');
 
-// Listar todos os posts
 router.get('/', async (req, res) => {
     try {
         const posts = await Post.findAll({
@@ -22,7 +22,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Formulário para novo post
 router.get('/formulario', async (req, res) => {
     const categorias = await Categoria.findAll();
     const usuarios = await Usuario.findAll();
@@ -34,7 +33,6 @@ router.get('/formulario', async (req, res) => {
     });
 });
 
-// Formulário para editar post
 router.get('/formulario/:id', async (req, res) => {
     try {
         const post = await Post.findByPk(req.params.id, {
@@ -60,7 +58,6 @@ router.get('/formulario/:id', async (req, res) => {
     }
 });
 
-// Criar novo post
 router.post('/salvar-post', async (req, res) => {
     try {
         if (!req.session.usuarioLogado || !req.session.usuarioLogado.id) {
@@ -76,12 +73,14 @@ router.post('/salvar-post', async (req, res) => {
             });
         res.redirect('/dados');
     } catch (error) {
-        console.error('Erro ao salvar o post:', error);
+        logger.error('Erro ao salvar o post.', { 
+            errorMessage: error.message, 
+            stack: error.stack
+        });
         res.status(500).send('Erro ao salvar o post.');
     }
 });
 
-// Atualizar post
 router.post('/editar-post/:id', async (req, res) => {
     try {
         if (!req.session.usuarioLogado || !req.session.usuarioLogado.id) {
@@ -104,7 +103,6 @@ router.post('/editar-post/:id', async (req, res) => {
     }
 });
 
-// Excluir post
 router.post('/excluir-post/:id', async (req, res) => {
     try {
         await Post.destroy({ where: { id: req.params.id } });
@@ -115,7 +113,6 @@ router.post('/excluir-post/:id', async (req, res) => {
     }
 });
 
-// Rota para ATUALIZAR um item que já existe.
 router.post('/salvar-item/:id', async (req, res) => {
     try {
         const { nome, descricao, categoriaId, fabricanteId } = req.body;
@@ -134,7 +131,6 @@ router.post('/salvar-item/:id', async (req, res) => {
     }
 });
 
-// Rota para EXCLUIR um item.
 router.post('/deletar-item/:id', async (req, res) => {
     try {
         const itemId = req.params.id;
