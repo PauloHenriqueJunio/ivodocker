@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const session = require('express-session');
 const sequelize = require('./config/database');
+require('./models'); // Garante que as associações Sequelize sejam registradas
 const { Post, Categoria, Usuario } = require('./models');
 
 // Configuração do express-session

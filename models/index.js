@@ -5,11 +5,12 @@ const Usuario = require('./Usuario');
 const Comentario = require('./Comentario');
 
 // Associações para Blog
-Post.belongsTo(Categoria, { foreignKey: 'categoriaId' });
-Categoria.hasMany(Post, { foreignKey: 'categoriaId' });
 
-Post.belongsTo(Usuario, { foreignKey: 'usuarioId' });
-Usuario.hasMany(Post, { foreignKey: 'usuarioId' });
+Post.belongsTo(Categoria, { foreignKey: 'categoriaId', as: 'Categoria' });
+Categoria.hasMany(Post, { foreignKey: 'categoriaId', as: 'Posts' });
+
+Post.belongsTo(Usuario, { foreignKey: 'usuarioId', as: 'Usuario' });
+Usuario.hasMany(Post, { foreignKey: 'usuarioId', as: 'Posts' });
 
 // Associações para Comentário
 Comentario.belongsTo(Post, { foreignKey: 'postId' });

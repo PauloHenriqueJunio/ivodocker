@@ -17,11 +17,9 @@
             <label for="categoriaId">Categoria:</label>
             <select id="categoriaId" name="categoriaId" required>
                 <option value="">Selecione</option>
-                <option value="1" <%= post && post.categoriaId === 1 ? 'selected' : '' %>>Esporte</option>
-                <option value="2" <%= post && post.categoriaId === 2 ? 'selected' : '' %>>Tecnologia</option>
-                <option value="3" <%= post && post.categoriaId === 3 ? 'selected' : '' %>>Social</option>
-                <option value="4" <%= post && post.categoriaId === 4 ? 'selected' : '' %>>Educação</option>
-                <option value="5" <%= post && post.categoriaId === 5 ? 'selected' : '' %>>Saúde</option>
+                <% categorias.forEach(function(cat) { %>
+                    <option value="<%= cat.id %>" <%= post && post.categoriaId === cat.id ? 'selected' : '' %>><%= cat.nome %></option>
+                <% }); %>
             </select>
         </div>
         <button type="submit">Salvar</button>

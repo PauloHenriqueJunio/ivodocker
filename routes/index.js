@@ -6,7 +6,10 @@ const { Post, Categoria, Usuario } = require('../models');
 router.get('/', async (req, res) => {
     try {
         const posts = await Post.findAll({
-            include: [Categoria, Usuario],
+            include: [
+                { model: Categoria, as: 'Categoria' },
+                { model: Usuario, as: 'Usuario' }
+            ],
             order: [['createdAt', 'DESC']]
         });
         res.render('index', {

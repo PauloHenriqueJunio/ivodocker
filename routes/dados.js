@@ -6,7 +6,10 @@ const { Post, Categoria, Usuario } = require('../models');
 router.get('/', async (req, res) => {
     try {
         const posts = await Post.findAll({
-            include: [Categoria, Usuario],
+            include: [
+                { model: Categoria, as: 'Categoria' },
+                { model: Usuario, as: 'Usuario' }
+            ],
             order: [['createdAt', 'DESC']]
         });
         res.render('dados', {
@@ -35,13 +38,16 @@ router.get('/formulario', async (req, res) => {
 router.get('/formulario/:id', async (req, res) => {
     try {
         const post = await Post.findByPk(req.params.id, {
-            include: [Categoria, Usuario]
+            include: [
+                { model: Categoria, as: 'Categoria' },
+                { model: Usuario, as: 'Usuario' }
+            ]
         });
         if (!post) {
             return res.status(404).send('Post não encontrado para edição.');
         }
-        const categorias = await Categoria.findAll();
-        const usuarios = await Usuario.findAll();
+    const categorias = await Categoria.findAll();
+    const usuarios = await Usuario.findAll();
         res.render('formulario', {
             titulo: 'Editar Post',
             post,
@@ -60,13 +66,14 @@ router.post('/salvar-post', async (req, res) => {
         if (!req.session.usuarioLogado || !req.session.usuarioLogado.id) {
             return res.status(403).send('Você precisa estar logado para criar um post.');
         }
-        const { titulo, conteudo, categoriaId } = req.body;
-        await Post.create({
-            titulo,
-            conteudo,
-            categoriaId,
-            usuarioId: req.session.usuarioLogado.id
-        });
+            console.log('Dados recebidos no salvar-post:', req.body);
+            const { titulo, conteudo, categoriaId } = req.body;
+            await Post.create({
+                titulo,
+                conteudo,
+                categoriaId: Number(categoriaId),
+                usuarioId: req.session.usuarioLogado.id
+            });
         res.redirect('/dados');
     } catch (error) {
         console.error('Erro ao salvar o post:', error);
