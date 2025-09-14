@@ -76,6 +76,17 @@ A estrutura de pastas e arquivos do projeto está organizada da seguinte forma:
 
 ---
 
+### 🔧 Configuração Inicial Obrigatória
+
+Antes de iniciar o projeto, é necessário criar um arquivo de configuração local com as variáveis de ambiente.
+
+1.  **Crie o arquivo `.env`:**
+    Na raiz do projeto, faça uma cópia do arquivo `.env.example` e renomeie a cópia para `.env`.
+
+2.  **Preencha as variáveis:**
+    Abra o novo arquivo `.env` e substitua `SUA_SENHA_AQUI` pela senha que você deseja usar para o banco de dados (por padrão, pode ser `password`, conforme o `docker-compose.yml`).
+
+---
 ### 🚀 Ambiente de Desenvolvimento com Devcontainer (Recomendado)
 
 Esta é a forma **recomendada** para desenvolver no projeto. O Devcontainer cria um ambiente completo e padronizado dentro do Docker, com todas as ferramentas (Node.js, Git) e extensões do VS Code necessárias já instaladas.
