@@ -11,13 +11,15 @@
     <header>
         <h1 id="teste">Curiosidades da Tecnologia</h1>
         <p>Tudo aquilo que você sempre quis saber sobre o mundo Tech, em um único lugar</p>
+        <% if (typeof usuarioLogado !== 'undefined' && usuarioLogado) { %>
+            <div class="welcome-message-header">Bem-vindo, <%= usuarioLogado.nome %>!</div>
+        <% } %>
         <nav>
             <a href="/"><span>Home</span></a>
             <a href="/dados"><span>Gerenciar Dados</span></a>
             <a href="https://g1.globo.com/" target="_blank" rel="internal"><span>Notícias</span></a>
-            <a href="mailto:phjsl1@aluno.ifal.edu.br, gasn2@aluno.ifal.edu.br?subject=Contato%20do%20Site&body=Ol%C3%A1%2C%20gostaria%20de%20entrar%20em%20contato." target="_self"><span>Fale Conosco</span></a>
+            <a href="mailto:phjsl1@aluno.ifal.edu.br, gasn2@aluno.ifal.edu.br?subject=Contato%20do%20Site&body=Ol%C3%A1%2C%20gostaria%20de%20entrar%C2%A0em%20contato." target="_self"><span>Fale Conosco</span></a>
             <% if (typeof usuarioLogado !== 'undefined' && usuarioLogado) { %>
-                <span style="margin-left:20px;">Bem-vindo, <%= usuarioLogado.nome %>!</span>
                 <a href="/logout" style="margin-left:10px;"><span>Logout</span></a>
             <% } else { %>
                 <a href="/login" style="margin-left:20px;"><span>Login</span></a>

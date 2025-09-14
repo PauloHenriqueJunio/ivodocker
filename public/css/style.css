@@ -1,209 +1,138 @@
 @charset "UTF-8";
 
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Jaro:opsz@6..72&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
-
-@font-face {
-    font-family: 'idroid';
-    src: url(/imagens/idroid.otf) format('opentype'); /* Caminho ajustado para a fonte */
-    font-weight: normal;
-    font-style: normal;
-}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@400;700&display=swap');
 
 :root {
-    --fonte0: Arial, Helvetica, sans-serif;
+    --cor-primaria: #2c3e50; /* Cinza-azulado escuro */
+    --cor-secundaria: #1c2833; /* Cinza-azulado muito escuro */
+    --cor-destaque: #3498db; /* Azul vibrante */
+    --cor-sucesso: #27ae60; /* Verde */
+    --cor-erro: #e74c3c; /* Vermelho */
+    --cor-texto-claro: #ecf0f1; /* Cinza claro */
+    --cor-sombra: rgba(0, 0, 0, 0.2);
+
+    --fonte-principal: 'Roboto', sans-serif;
+    --fonte-secundaria: 'Montserrat', sans-serif;
 }
+
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
+
 body {
     text-align: center;
-    font-family: var(--fonte0);
+    font-family: var(--fonte-principal);
+    background-color: var(--cor-secundaria);
+    color: var(--cor-texto-claro);
 }
 
 header {
-    background-image: linear-gradient(to bottom, #3ddc84, #2fa866, #063d1e);
+    background-color: var(--cor-secundaria);
     text-align: center;
-    width: auto;
-    height: 200px;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
+    padding: 40px 20px;
+    color: var(--cor-texto-claro);
+    box-shadow: 0 4px 6px var(--cor-sombra);
 }
 
-header > h1{
+header > h1 {
     color: white;
-    font-family: Bebas Neue, cursive;
-    font: 100;
-    text-shadow: 1px 1px 1px black;
-    font-size: 55px;
+    font-family: var(--fonte-secundaria);
+    font-weight: 700;
+    font-size: 3em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
 header > p {
-    text-align: center;
-    font-size: 22px;
-    margin-top: 8px;
-    margin-bottom: 20px;
-    color: white;
-    width: 380px;
-    font-family: Bebas Neue, cursive;
-    text-shadow: 1px 1px 1px black;
-}
-header > nav {
-    position: absolute;
-    left: 10px;
+    font-size: 1.2em;
+    margin-top: 10px;
+    font-family: var(--fonte-principal);
+    color: rgba(255, 255, 255, 0.8);
 }
 
-header > nav > a {
-    display: inline-block;
-    margin-top: 150px;
-    padding: 10px;
-    color: white;
+header > nav {
+    margin-top: 20px;
+}
+
+header > nav > a,
+header > nav > span {
+    color: var(--cor-texto-claro);
     text-decoration: none;
     font-weight: bold;
-    font-family: sans-serif;
-    transition-duration: .5s;
-    font-weight: bold;
-
+    font-size: 1em;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 0 5px;
 }
 
 header > nav > a:hover {
-    background: #3ddc84;
-    border-radius: 5px;
-    color: #1a5c37;
-    text-decoration: underline;
+    background-color: var(--cor-destaque);
+    transform: translateY(-2px);
 }
+
+.welcome-message-header {
+    color: var(--cor-destaque);
+    font-family: var(--fonte-secundaria);
+    font-weight: 700;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
 main {
-    background-color: #83E1AD;
-    font-size: 1em;
-    line-height: 1.7em;
-}
-main a {
-    background-color: #8beeb6;
-    text-decoration: none;
-    padding: 1px;
+    padding: 30px;
 }
 
-main a:hover {
-    text-decoration: underline;
-}
-
-a.externo::after {
-    content: '\00A0\1F517';
-}
 article {
-    background-color: white;
-    margin: 0px 80px;
-    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.384);
-    padding: 16px;
+    background-color: var(--cor-primaria);
+    margin: 20px auto;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--cor-sombra);
+    max-width: 900px;
     text-align: justify;
+    color: var(--cor-texto-claro);
 }
 
-h1 {
-    font-family: 'idroid', sans-serif;
-    color: #063d1E
-
-}
-h2 {
-    font-family: 'idroid', sans-serif;
-    font-size: 23px;
-    color: #268852;
-    background-image: linear-gradient(to right, #83e1ad88, #c5ebd69c, white);
-    padding-left: 7px;
-    margin: 10px 0px 10px 0px;
+h1, h2 {
+    font-family: var(--fonte-secundaria);
+    font-weight: 700;
+    color: var(--cor-texto-claro);
+    margin-bottom: 20px;
 }
 
-article > p{
-padding: 10px 0px;
+article > p {
+    padding: 10px 0;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
 }
 
 img {
     max-width: 100%;
     height: auto;
     display: block;
-    margin: 0 auto;
-}
-
-
-.quer {
-    background-color: #2FA866;
-    padding: 4px;
-    color: white;
-    border-radius: 10px 10px 0px 0px;
-}
-
-.quer2 {
-    background-color: #C5EBD6;
-    padding: 10px;
-    border-radius: 0px 0px 10px 10px;
-    box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.288);
-
-}
-
-.quer2 > ol {
-    margin-left: -30px;
-}
-
-.quer2 > p {
-    padding: 10px;
-}
-
-ol {
-    list-style-type: '\2714\0020\0020';
-    columns: 2;
-    font-family: var(--fonte0);
-    list-style-position: inside;
-    font-weight: bold;
-}
-
-.artc2 {
-    margin-bottom: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-.adh {
-    color: #2FA866;
-    text-decoration: none;
-    font-weight: bolder;
-}
-
-.testelala {
-    padding: 15px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 footer {
-    background-color: #063d1E;
-    margin-left: 80px;
-    margin-right: 80px;
+    background-color: var(--cor-primaria);
     color: white;
+    padding: 15px;
     font-weight: normal;
-    padding: 7px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    text-align: center;
+    margin-top: 30px;
 }
 
-.btn-adicionar {
-    display: inline-block;
-    background-color: #2FA866;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    margin-bottom: 20px;
-    transition: background-color 0.3s ease;
-}
-
-.btn-adicionar:hover {
-    background-color: #1a5c37;
-}
-
+/* Estilos de Formulário */
 form {
     padding: 20px;
+    background-color: var(--cor-secundaria);
     border-radius: 10px;
+    box-shadow: 0 2px 4px var(--cor-sombra);
     margin-top: 20px;
-    text-align: left;
 }
 
 form div {
@@ -214,75 +143,125 @@ form label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #063d1e;
+    color: var(--cor-texto-claro);
 }
 
 form input[type="text"],
-form textarea {
-    width: calc(100% - 20px);
+form input[type="email"],
+form input[type="password"],
+form textarea,
+form select {
+    width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #444;
     border-radius: 5px;
     font-size: 1em;
+    background-color: #333;
+    color: white;
+    transition: border-color 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+    outline: none;
+    border-color: var(--cor-destaque);
 }
 
 form button[type="submit"] {
-    background-color: #2FA866;
+    background-color: var(--cor-destaque);
     color: white;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1em;
     margin-right: 10px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 form button[type="submit"]:hover {
-    background-color: #441a5c;
+    background-color: #2980b9;
+    transform: translateY(-2px);
 }
 
-form action {
-    display: inline;
-    margin-left: 10px;
-}
-
-.btn-editar {
-        background-color: #007bff;
-        color: white;
-        padding: 8px 12px;
-        border-radius: 5px;
-        text-decoration: none;
-        margin-right: 5px;
-    }
-    .btn-editar:hover {
-        background-color: #0056b3;
-    }
-    .btn-excluir:hover {
-        background-color: #3d0909 !important;
-}
-
-li.item-card {
-    background-color: #e6ffe6;
-    border: 1px solid #aaffaa;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 8px;
+/* Ajustes de Layout */
+.post-card {
+    background-color: #333;
+    border: 1px solid #444;
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 10px;
     text-align: left;
-    display: flex;
-    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.post-card h3 {
+    color: var(--cor-texto-claro);
+    margin-bottom: 8px;
+    font-family: var(--fonte-secundaria);
+    font-weight: 700;
+}
+
+.post-card p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.5;
 }
 
 .item-actions {
-    margin-top: 30px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 100%;
-    border: 1px solid red !important;
+    margin-top: 10px;
 }
 
-.item-card p {
-    border: 1px solid blue !important;
-    margin-bottom: 5px !important;
+/* Estilos dos Botões */
+.btn-editar, .btn-excluir, .btn-adicionar {
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-right: 5px;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    display: inline-block;
+}
+
+a.btn-adicionar {
+    background-color: var(--cor-sucesso);
+    margin-bottom: 25px; /* Adicionado mais espaço aqui */
+}
+a.btn-adicionar:hover {
+    background-color: #219d53;
+}
+
+.btn-editar {
+    background-color: #f1c40f;
+}
+
+.btn-editar:hover {
+    background-color: #d8ac0b;
+}
+
+.btn-excluir {
+    background-color: var(--cor-erro);
+}
+
+.btn-excluir:hover {
+    background-color: #c0392b;
+}
+
+/* Estilo para a tag form do botão de excluir para remover a "borda branca" */
+.item-actions form {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+ul {
+    padding-left: 0; /* Removido o padding padrão da ul */
 }
