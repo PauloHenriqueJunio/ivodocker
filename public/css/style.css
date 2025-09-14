@@ -322,3 +322,22 @@ a.btn-adicionar:hover {
     background-color: var(--cor-erro);
     color: white;
 }
+
+.link-destaque {
+    display: inline-block; 
+    padding: 10px 15px;
+    margin-top: 15px;
+    color: var(--cor-texto-claro);
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: var(--cor-destaque);
+    border: 2px solid var(--cor-destaque);
+    transition: all 0.3s ease;
+}
+
+.link-destaque:hover {
+    color: white;
+    transform: translateY(-2px);
+    background-color: #2980b9;
+}
