@@ -75,6 +75,7 @@ minha-app-crud/
 ├── docker-compose.yml
 └── .env.example
 
+
 ---
 
 ### ⚙️ Como Executar o Projeto Localmente
@@ -88,36 +89,48 @@ Para rodar esta aplicação, é altamente recomendável usar o Docker para garan
 #### Passo a Passo
 
 1. **Clone o repositório:**
-git clone https://github.com/PauloHenriqueJunio/ivodocker.git
-cd ivodocker
-
-
+```bash
+   git clone [https://github.com/PauloHenriqueJunio/ivodocker.git](https://github.com/PauloHenriqueJunio/ivodocker.git)
+   cd ivodocker
+```
 2. **Crie o arquivo de variáveis de ambiente:**
 Copie o arquivo de exemplo e preencha com suas credenciais.
 
-cp .env.example .env
 
-**Ou crie manualmente um arquivo `.env` com as variáveis:**
+cp .env.example .env
+```
+```bash
+cp .env.example .env
+```
+Ou crie manualmente um arquivo ".env" com as variáveis:
+```bash
 DB_HOST=mysql_db
 DB_USER=root
 DB_PASSWORD=password
 DB_NAME=dockerdb
+```
 
-3. **Inicie os contêineres:**
+Inicie os contêineres:
+```bash
 docker compose up --build
+```
 Este comando irá construir as imagens e iniciar o servidor e o banco de dados.
 
 Você verá uma mensagem no terminal indicando que o servidor está rodando.
 
-4. **Acesse a aplicação:**
+Acesse a aplicação:
 Abra seu navegador e acesse as URLs abaixo:
-* **Página Inicial:** `http://localhost:3000`
-* **Gerenciar Dados:** `http://localhost:3000/dados`
+```bash
+Página Inicial: http://localhost:3000
 
+Gerenciar Dados: http://localhost:3000/dados
+```
 ---
+###
+🧑‍💻 Autores
+Paulo Henrique Junio dos Santos Lima
 
-### 🧑‍💻 Autores
+Lucas Pereira de Araujo
 
-* **Paulo Henrique Junio dos Santos Lima**
-* **Lucas Pereira de Araujo**
-* **Gerson A. da Silva Neto**
+Gerson A. da Silva Neto
+
