@@ -97,7 +97,5 @@ Gerenciar Dados: http://localhost:3000/dados
 
 🧑‍💻 Autores
 Paulo Henrique Junio dos Santos Lima
-
 Lucas Pereira de Araujo
-
 Gerson A. da Silva Neto
