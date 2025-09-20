@@ -45,6 +45,18 @@ app.use('/', indexRouter);
 app.use('/dados', dadosRouter);
 app.use('/', authRouter);
 
+// Cria categorias padrão se não existirem
+(async () => {
+  const categoriasPadrao = [
+    { nome: 'Tecnologia' },
+    { nome: 'Educação' },
+    { nome: 'Saúde' }
+  ];
+  for (const cat of categoriasPadrao) {
+    await Categoria.findOrCreate({ where: { nome: cat.nome } });
+  }
+})();
+
 // Sincroniza com os bancos de dados e inicia o servidor
 sequelize.sync({ force: false })
     .then(() => {
