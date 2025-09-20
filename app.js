@@ -50,7 +50,8 @@ app.use('/', authRouter);
   const categoriasPadrao = [
     { nome: 'Tecnologia' },
     { nome: 'Educação' },
-    { nome: 'Saúde' }
+    { nome: 'Saúde' },
+    { nome: 'Esporte' }
   ];
   for (const cat of categoriasPadrao) {
     await Categoria.findOrCreate({ where: { nome: cat.nome } });
