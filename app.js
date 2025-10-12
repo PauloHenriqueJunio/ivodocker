@@ -36,28 +36,22 @@ app.use('/', indexRouter);
 app.use('/dados', dadosRouter);
 app.use('/', authRouter);
 
-(async () => {
-  const categoriasPadrao = [
-    { nome: 'Tecnologia' },
-    { nome: 'Educação' },
-    { nome: 'Saúde' },
-    { nome: 'Esporte' }
-  ];
-  
-  try {
-    await Categoria.bulkCreate(categoriasPadrao, {
-      ignoreDuplicates: true
-    });
-    logger.info('Categorias padrão verificadas/criadas com sucesso.');
-  } catch (error) {
-    logger.error('Erro ao criar categorias padrão:', error);
-  }
-})();
 
-sequelize.sync({ force: true })
-    .then(() => {
+
+sequelize.sync({ force: false }) 
+    .then(async () => { 
         logger.info('Banco de dados sincronizado com sucesso.');
-
+        
+        const categoriasPadrao = [
+          { nome: 'Tecnologia' }, { nome: 'Educação' }, { nome: 'Saúde' }, { nome: 'Esporte' }
+        ];
+        try {
+          await Categoria.bulkCreate(categoriasPadrao, { ignoreDuplicates: true });
+          logger.info('Categorias padrão criadas com sucesso.');
+        } catch (error) {
+          logger.error('Erro ao criar categorias padrão:', error);
+        }
+        
         const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
             logger.info(`Servidor rodando em http://localhost:${PORT}`);
@@ -65,4 +59,5 @@ sequelize.sync({ force: true })
     })
     .catch(err => {
         logger.error('Erro ao sincronizar o banco de dados:', { message: err.message });
+        process.exit(1);
     });

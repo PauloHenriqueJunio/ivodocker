@@ -303,6 +303,20 @@ a.btn-adicionar:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.item-actions .btn-ver-post {
+    background-color: var(--cor-destaque);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.15s ease;
+}
+
+.item-actions .btn-ver-post:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
 .botao-container {
     display: flex;
     justify-content: center;

@@ -21,6 +21,8 @@
                         Categoria: <%= post.Categoria ? post.Categoria.nome : 'Sem categoria' %> | Autor: <%= post.Usuario ? post.Usuario.nome : 'Desconhecido' %>
                     </div>
                     <div class="item-actions">
+                        <a href="/dados/post/<%= post.id %>" class="btn-ver-post">Ver Post / Comentar">
+                        </a> 
                         <a href="/dados/formulario/<%= post.id %>" class="btn-editar">Editar</a>
                         <form action="/dados/excluir-post/<%= post.id %>" method="POST">
                             <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este post?');">Excluir</button>
