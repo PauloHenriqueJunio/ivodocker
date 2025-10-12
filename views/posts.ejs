@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= titulo %></title>
+    <link rel="stylesheet" href="/css/style.css"> </head>
+<body>
+    <%- include('layouts/header') %> <main>
+        <article class="post-card">
+            <h3><%= post.titulo %></h3>
+            <div class="post-meta">
+                <span>Por: <%= post.Usuario.nome %></span> | 
+                <span>Categoria: <%= post.Categoria.nome %></span>
+            </div>
+            <div class="post-conteudo">
+                <p><%= post.conteudo %></p>
+            </div>
+        </article>
+
+        <article>
+            <h2>Comentários</h2>
+
+            <% if (usuarioLogado) { %>
+                <form action="/dados/posts/<%= post.id %>/comentar" method="POST">
+                    <div>
+                        <label for="textoComentario">Deixe seu comentário:</label>
+                        <textarea id="textoComentario" name="textoComentario" rows="3" required></textarea>
+                    </div>
+                    <button type="submit">Enviar Comentário</button>
+                </form>
+            <% } else { %>
+                <p><a href="/login" class="link-destaque">Faça login para comentar</a></p>
+            <% } %>
+
+            <hr style="margin: 30px 0; border-color: #444;">
+
+            <% if (post.Comentarios && post.Comentarios.length > 0) { %>
+                <% post.Comentarios.forEach(comentario => { %>
+                    <div class="post-card" style="background-color: #1c2833; margin-bottom: 15px;">
+                        <p><%= comentario.texto %></p>
+                        <div class="post-meta" style="text-align: right;">
+                            <strong><%= comentario.Usuario.nome %></strong> em 
+                            <%= new Date(comentario.createdAt).toLocaleDateString('pt-BR') %>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>Ainda não há comentários. Seja o primeiro a comentar!</p>
+            <% } %>
+        </article>
+    </main>
+
+    <%- include('layouts/footer') %> </body>
+</html>

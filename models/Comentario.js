@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const comentarios = sequelize.define('Comentario', {
+const Comentario = sequelize.define('Comentario', {
     texto: { 
         type: DataTypes.TEXT,
         allowNull: false
@@ -10,7 +10,7 @@ const comentarios = sequelize.define('Comentario', {
 }, {
     tableName: 'comentarios',
 });
-module.exports = comentarios;
+module.exports = Comentario;
 
 // const Post = require('./Post');
 // const Usuario = require('./Usuario');
