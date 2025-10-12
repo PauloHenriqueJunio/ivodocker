@@ -30,12 +30,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(session({
-    secret: 'segredo-super-seguro',
-    resave: false,
-    saveUninitialized: false
-}));
-
 
 app.use('/', indexRouter);
 app.use('/dados', dadosRouter);
