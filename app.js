@@ -6,6 +6,14 @@ const sequelize = require('./config/database');
 require('./models');
 const { Post, Categoria, Usuario } = require('./models');
 const logger = require('./config/logger');
+const comentarios = require('./models/Comentario');
+
+
+Post.hasMany(comentarios);
+comentarios.belongsTo(Post);
+
+Usuario.hasMany(comentarios);
+comentarios.belongsTo(Usuario);
 
 app.use(session({
     secret: 'segredo-super-seguro',
