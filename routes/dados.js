@@ -186,14 +186,14 @@ router.post('/posts/:id/comentar', async (req, res) => {
         return res.redirect('/login');
     }
     try {
-        const id = req.params.id;
+        const postId = req.params.id;
         const usuarioId = req.session.usuarioLogado.id;
-        const comentario = req.body.textoComentario;
+        const textoComentario = req.body.textoComentario;
 
         await Comentario.create({
-            texto: comentario,
-            PostId: id,
-            UsuarioId: usuarioId
+            texto: textoComentario,
+            PostId: postId,
+            usuarioId: usuarioId
         });
 
         res.redirect(`/dados/post/${req.params.id}`)
