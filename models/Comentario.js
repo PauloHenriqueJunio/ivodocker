@@ -5,11 +5,11 @@ const Comentario = sequelize.define('Comentario', {
     texto: { 
         type: DataTypes.TEXT,
         allowNull: false
-     },
-
+    },
 }, {
     tableName: 'comentarios',
 });
+
 module.exports = Comentario;
 
 // const Post = require('./Post');

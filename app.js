@@ -6,14 +6,7 @@ const sequelize = require('./config/database');
 require('./models');
 const { Post, Categoria, Usuario } = require('./models');
 const logger = require('./config/logger');
-const comentarios = require('./models/Comentario');
 
-
-Post.hasMany(comentarios);
-comentarios.belongsTo(Post);
-
-Usuario.hasMany(comentarios);
-comentarios.belongsTo(Usuario);
 
 app.use(session({
     secret: 'segredo-super-seguro',
@@ -50,12 +43,18 @@ app.use('/', authRouter);
     { nome: 'Saúde' },
     { nome: 'Esporte' }
   ];
-  for (const cat of categoriasPadrao) {
-    await Categoria.findOrCreate({ where: { nome: cat.nome } });
+  
+  try {
+    await Categoria.bulkCreate(categoriasPadrao, {
+      ignoreDuplicates: true
+    });
+    logger.info('Categorias padrão verificadas/criadas com sucesso.');
+  } catch (error) {
+    logger.error('Erro ao criar categorias padrão:', error);
   }
 })();
 
-sequelize.sync({ force: false })
+sequelize.sync({ force: true })
     .then(() => {
         logger.info('Banco de dados sincronizado com sucesso.');
 
