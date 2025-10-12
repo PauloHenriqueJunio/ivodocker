@@ -1,11 +1,10 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-
 const comentarios = sequelize.define('Comentario', {
     texto: { 
         type: DataTypes.TEXT,
-        AllowNull: false
+        allowNull: false
      },
 
 }, {

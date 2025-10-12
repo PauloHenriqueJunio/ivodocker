@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { Post, Categoria, Usuario } = require('../models');
+const { Post, Categoria, Usuario, Comentario } = require('../models');
 const logger = require('../config/logger');
+const req = require('express/lib/request');
 
 router.get('/', async (req, res) => {
     try {
@@ -147,6 +148,31 @@ router.post('/deletar-item/:id', async (req, res) => {
         console.error('Erro ao excluir o item:', error);
         res.status(500).send('Erro ao excluir o item.');
     }
+});
+
+
+router.post('/posts/id:/comentar', async (req, res) => {
+    if (!req.session.usuarioLogado) {
+        window.alert('Você precisa estar logado para comentar.');
+        return res.redirect('/login');
+    }
+    try {
+        const id = req.params.id;
+        const usuarioId = req.session.usuarioLogado.id;
+        const comentario = req.body.textoComentario;
+
+        await Comentario.create({
+            texto: comentario,
+            postId: id,
+            usuarioId: usuarioId
+        });
+
+        res.redirect(`/dados/post/${req.params.id}`)
+
+    } catch (err) {
+            logger.error("Erro ao salvar comentários, favor tente novamente.", {messsage: err.message });
+            res.redirect(`/dados/post/${req.params.id}`)
+        }
 });
 
 module.exports = router;
