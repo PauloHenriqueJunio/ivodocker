@@ -1,0 +1,24 @@
+# helm/ivodocker-chart/values.yaml
+
+replicaCount: 1
+
+# Detalhes da imagem Docker
+image:
+  repository: ghcr.io/paulohenriquejunio/ivodocker # ATENÇÃO: Verifique se este é o nome correto do seu futuro repositório no GitHub Container Registry
+  pullPolicy: IfNotPresent
+  # A tag será preenchida automaticamente pelo nosso pipeline de CI/CD.
+  tag: "main-sha-12345" # Usando um valor de exemplo por enquanto
+
+# Configurações do serviço que expõe a aplicação dentro do cluster
+service:
+  type: ClusterIP
+  port: 3000
+
+# Configurações do banco de dados que serão usadas para criar o Secret
+database:
+  host: "mysql-ivodocker" # Nome do serviço do banco de dados que o operador vai criar
+  name: "ivodocker_db"
+  user: "root"
+  # ATENÇÃO: Como pedido na atividade, colocamos a senha aqui.
+  # Em um cenário de produção real, usaríamos uma ferramenta como o Vault.
+  password: "password"
