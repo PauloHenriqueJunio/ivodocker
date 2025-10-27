@@ -4,9 +4,9 @@ replicaCount: 1
 
 # Detalhes da imagem Docker
 image:
-  repository: nginx
+  repository: ghcr.io/paulohenriquejunio/ivodocker
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "Inicial"
 
 # Configurações do serviço que expõe a aplicação dentro do cluster
 service:

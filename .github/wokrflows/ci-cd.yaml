@@ -1,0 +1,73 @@
+# .github/workflows/ci-cd.yaml
+
+name: CI/CD - Build and Push Docker Image
+
+# Gatilho: Este workflow roda a cada 'push' na branch 'main'
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  build-push-update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Permissão para o job escrever de volta no repositório
+      packages: write # Permissão para o job publicar imagens no ghcr.io
+
+    steps:
+      # 1. Baixa o código do seu repositório para o ambiente do robô
+      - name: Checkout do Repositório
+        uses: actions/checkout@v4
+        with:
+          # Precisamos de um token especial para poder fazer push de volta
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+      # 2. Configura o QEMU (necessário para construir imagens multi-plataforma, boa prática)
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      # 3. Configura o Docker Buildx (ferramenta de build avançada)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 4. Faz o login no GitHub Container Registry (ghcr.io)
+      - name: Login to ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 5. Gera a tag única para a nova imagem Docker
+      - name: Generate image tag
+        id: image_tag
+        run: echo "tag=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_OUTPUT
+
+      # 6. Constrói e envia a imagem Docker para o ghcr.io
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/${{ github.repository }}:${{ steps.image_tag.outputs.tag }}
+
+      # 7. Atualiza o arquivo values.yaml com a nova tag da imagem
+      - name: Update Helm chart image tag
+        run: |
+          sed -i "s/tag: .*/tag: ${{ steps.image_tag.outputs.tag }}/" helm/ivodocker-chart/values.yaml
+
+      # 8. Configura o Git para fazer o commit de volta
+      - name: Commit e Push da atualização do Helm
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+          git add helm/ivodocker-chart/values.yaml
+          # Verifica se há algo para commitar antes de tentar
+          if ! git diff --staged --quiet; then
+            # A mágica para evitar o loop: [skip ci]
+            git commit -m "Atualiza a tag da imagem para ${{ steps.image_tag.outputs.tag }} [skip ci]"
+            git push
+          else
+            echo "Nenhuma mudança no values.yaml para commitar."
+          fi
