@@ -4,10 +4,10 @@ metadata:
   name: {{ include "ivodocker-chart.fullname" . }}
   labels:
     {{- include "ivodocker-chart.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "ivodocker-chart.selectorLabels" . | nindent 6 }}
@@ -27,7 +27,6 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "ivodocker-chart.serviceAccountName" . }}
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -44,7 +43,10 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          {{- with .Values.livenessProbe }}
+          envFrom:
+          - secretRef:
+              name: {{ include "ivodocker-chart.fullname" . }}-db-credentials
+      {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}

@@ -4,10 +4,9 @@ replicaCount: 1
 
 # Detalhes da imagem Docker
 image:
-  repository: ghcr.io/paulohenriquejunio/ivodocker # ATENÇÃO: Verifique se este é o nome correto do seu futuro repositório no GitHub Container Registry
+  repository: nginx
   pullPolicy: IfNotPresent
-  # A tag será preenchida automaticamente pelo nosso pipeline de CI/CD.
-  tag: "main-sha-12345" # Usando um valor de exemplo por enquanto
+  tag: "latest"
 
 # Configurações do serviço que expõe a aplicação dentro do cluster
 service:
