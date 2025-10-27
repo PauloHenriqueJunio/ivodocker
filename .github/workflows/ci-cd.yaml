@@ -45,28 +45,34 @@ jobs:
         run: echo "tag=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_OUTPUT
 
       # 6. Constrói e envia a imagem Docker para o ghcr.io
+      - name: Define o nome da imagem em minúsculas
+        id: image_name
+        run: echo "name=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+
+      # 7. Constrói e envia a imagem Docker, agora usando o nome em minúsculas
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ steps.image_tag.outputs.tag }}
+          # USA A VARIÁVEL CRIADA NO PASSO ANTERIOR
+          tags: ${{ steps.image_name.outputs.name }}:${{ steps.image_tag.outputs.tag }}
 
-      # 7. Atualiza o arquivo values.yaml com a nova tag da imagem
+      # 8. Atualiza o arquivo values.yaml
       - name: Update Helm chart image tag
         run: |
-          sed -i "s/tag: .*/tag: ${{ steps.image_tag.outputs.tag }}/" helm/ivodocker-chart/values.yaml
+          # USA O NOME EM MINÚSCULAS AQUI TAMBÉM!
+          sed -i "s|repository:.*|repository: ${{ steps.image_name.outputs.name }}|" helm/ivodocker-chart/values.yaml
+          sed -i "s|tag:.*|tag: ${{ steps.image_tag.outputs.tag }}|" helm/ivodocker-chart/values.yaml
 
-      # 8. Configura o Git para fazer o commit de volta
+      # 9. Commit e Push da atualização do Helm
       - name: Commit e Push da atualização do Helm
         run: |
           git config --global user.name 'GitHub Actions Bot'
           git config --global user.email 'actions@github.com'
           git add helm/ivodocker-chart/values.yaml
-          # Verifica se há algo para commitar antes de tentar
           if ! git diff --staged --quiet; then
-            # A mágica para evitar o loop: [skip ci]
-            git commit -m "Atualiza a tag da imagem para ${{ steps.image_tag.outputs.tag }} [skip ci]"
+            git commit -m "Atualiza a imagem para ${{ steps.image_name.outputs.name }}:${{ steps.image_tag.outputs.tag }} [skip ci]"
             git push
           else
             echo "Nenhuma mudança no values.yaml para commitar."
