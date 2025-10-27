@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           # Precisamos de um token especial para poder fazer push de volta
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          token: ${{ secrets.TOKEN_IVO }}
 
       # 2. Configura o QEMU (necessário para construir imagens multi-plataforma, boa prática)
       - name: Set up QEMU
