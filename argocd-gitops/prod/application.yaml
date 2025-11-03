@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ivodocker-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/PauloHenriqueJunio/ivodocker
+    targetRevision: HEAD
+    path: helm/ivodocker-chart
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prod
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
