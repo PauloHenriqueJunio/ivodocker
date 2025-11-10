@@ -1,0 +1,18 @@
+replicaCount: 1
+
+# Image usada em ambiente de desenvolvimento (CI irá atualizar a tag para o SHA gerado)
+image:
+  repository: ghcr.io/paulohenriquejunio/ivodocker
+  pullPolicy: IfNotPresent
+  tag: "dev"
+
+service:
+  type: ClusterIP
+  port: 3000
+
+database:
+  host: "mysql-ivodocker"
+  name: "ivodocker_db"
+  user: "root"
+  # Senha de desenvolvimento (pedido do exercício: credenciais no values)
+  password: "dev_password"

@@ -3,12 +3,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@400;700&display=swap');
 
 :root {
-    --cor-primaria: #2c3e50; /* Cinza-azulado escuro */
-    --cor-secundaria: #1c2833; /* Cinza-azulado muito escuro */
-    --cor-destaque: #3498db; /* Azul vibrante */
-    --cor-sucesso: #27ae60; /* Verde */
-    --cor-erro: #e74c3c; /* Vermelho */
-    --cor-texto-claro: #ecf0f1; /* Cinza claro */
+    --cor-primaria: #2c3e50;
+    --cor-secundaria: #1c2833;
+    --cor-destaque: #3498db;
+    --cor-sucesso: #27ae60;
+    --cor-erro: #e74c3c;
+    --cor-texto-claro: #ecf0f1;
     --cor-sombra: rgba(0, 0, 0, 0.2);
 
     --fonte-principal: 'Roboto', sans-serif;
@@ -29,7 +29,7 @@ body {
 }
 
 header {
-    background-color: var(--cor-secundaria);
+    background-image: linear-gradient(to right, var(--cor-secundaria), var(--cor-primaria));
     text-align: center;
     padding: 40px 20px;
     color: var(--cor-texto-claro);
@@ -167,6 +167,7 @@ form textarea:focus,
 form select:focus {
     outline: none;
     border-color: var(--cor-destaque);
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.6);
 }
 
 form button[type="submit"] {
@@ -186,15 +187,16 @@ form button[type="submit"]:hover {
     transform: translateY(-2px);
 }
 
-/* Ajustes de Layout */
 .post-card {
     background-color: #333;
     border: 1px solid #444;
     margin-bottom: 15px;
     padding: 20px;
     border-radius: 10px;
+    border-left:4px solid var(--cor-destaque);
     text-align: left;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .post-card h3 {
@@ -222,6 +224,11 @@ form button[type="submit"]:hover {
 .post-card p b {
   font-weight: 500;
   color: rgba(255, 255, 255, 0.7);
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
 }
 
 .item-actions {
@@ -294,6 +301,25 @@ a.btn-adicionar:hover {
     background-color: #219d53;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.item-actions .btn-ver-post {
+    background-color: var(--cor-destaque);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.15s ease;
+}
+
+.item-actions .btn-ver-post:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.botao-container {
+    display: flex;
+    justify-content: center;
 }
 
 .post-meta {

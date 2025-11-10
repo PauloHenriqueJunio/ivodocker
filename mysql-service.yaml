@@ -1,0 +1,10 @@
+# mysql-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-ivodocker # O nome exato que nossa aplicação espera
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: mysql

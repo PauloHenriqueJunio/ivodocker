@@ -7,25 +7,23 @@ require('./models');
 const { Post, Categoria, Usuario } = require('./models');
 const logger = require('./config/logger');
 
-// Configuração do express-session
+
 app.use(session({
     secret: 'segredo-super-seguro',
     resave: false,
     saveUninitialized: false
 }));
 
-// Middleware para passar usuário logado para as views
 app.use((req, res, next) => {
     res.locals.usuarioLogado = req.session ? req.session.usuarioLogado : null;
     next();
 });
 
-// Importa os arquivos de rota
 const indexRouter = require('./routes/index');
 const dadosRouter = require('./routes/dados');
 const authRouter = require('./routes/auth');
 
-// Configurações do EJS e arquivos estáticos
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -33,23 +31,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Configuração do express-session
-app.use(session({
-    secret: 'segredo-super-seguro',
-    resave: false,
-    saveUninitialized: false
-}));
 
-// Usando os arquivos de rota
 app.use('/', indexRouter);
 app.use('/dados', dadosRouter);
 app.use('/', authRouter);
 
-// Sincroniza com os bancos de dados e inicia o servidor
-sequelize.sync({ force: false })
-    .then(() => {
-        logger.info('Banco de dados sincronizado com sucesso.');
 
+
+sequelize.sync({ force: false }) 
+    .then(async () => { 
+        logger.info('Banco de dados sincronizado com sucesso.');
+        
+        const categoriasPadrao = [
+          { nome: 'Tecnologia' }, { nome: 'Educação' }, { nome: 'Saúde' }, { nome: 'Esporte' }
+        ];
+        try {
+          await Categoria.bulkCreate(categoriasPadrao, { ignoreDuplicates: true });
+          logger.info('Categorias padrão criadas com sucesso.');
+        } catch (error) {
+          logger.error('Erro ao criar categorias padrão:', error);
+        }
+        
         const PORT = process.env.PORT || 3000;
         app.listen(PORT, () => {
             logger.info(`Servidor rodando em http://localhost:${PORT}`);
@@ -57,4 +59,5 @@ sequelize.sync({ force: false })
     })
     .catch(err => {
         logger.error('Erro ao sincronizar o banco de dados:', { message: err.message });
+        process.exit(1);
     });

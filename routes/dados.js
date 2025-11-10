@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { Post, Categoria, Usuario } = require('../models');
+const { Post, Categoria, Usuario, Comentario } = require('../models');
 const logger = require('../config/logger');
+const req = require('express/lib/request');
+const comentarios = require('../models/Comentario');
 
 router.get('/', async (req, res) => {
     try {
@@ -57,6 +59,35 @@ router.get('/formulario/:id', async (req, res) => {
         res.status(500).send('Erro ao carregar post para edição.');
     }
 });
+
+router.get('/post/:id', async (req, res) => {
+  try {
+    const post = await Post.findByPk(req.params.id, {
+      include: [
+        { model: Categoria, as: 'Categoria' },
+        { model: Usuario, as: 'Usuario' },
+        {
+          model: comentarios,
+          include: [{ model: Usuario, as: 'Usuario' }]
+        }
+      ],
+      order: [
+        [comentarios, 'createdAt', 'DESC']
+      ]
+    });
+    if (!post) {
+      return res.status(404).send('Post não encontrado.');
+    }
+    res.render('post', {
+      titulo: post.titulo,
+      post: post
+    });
+  } catch (error) {
+    logger.error('Erro ao buscar o post com comentários.', { message: error.message });
+    res.status(500).send('Erro ao carregar a página do post.');
+  }
+});
+
 
 router.post('/salvar-post', async (req, res) => {
     try {
@@ -147,6 +178,30 @@ router.post('/deletar-item/:id', async (req, res) => {
         console.error('Erro ao excluir o item:', error);
         res.status(500).send('Erro ao excluir o item.');
     }
+});
+
+
+router.post('/posts/:id/comentar', async (req, res) => {
+    if (!req.session.usuarioLogado) {
+        return res.redirect('/login');
+    }
+    try {
+        const postId = req.params.id;
+        const usuarioId = req.session.usuarioLogado.id;
+        const textoComentario = req.body.textoComentario;
+
+        await Comentario.create({
+            texto: textoComentario,
+            PostId: postId,
+            usuarioId: usuarioId
+        });
+
+        res.redirect(`/dados/post/${req.params.id}`)
+
+    } catch (err) {
+            logger.error("Erro ao salvar comentários, favor tente novamente.", {messsage: err.message });
+            res.redirect(`/dados/post/${req.params.id}`)
+        }
 });
 
 module.exports = router;

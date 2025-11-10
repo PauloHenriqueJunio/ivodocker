@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Post, Categoria, Usuario } = require('../models');
+const { Post, Categoria, Usuario, Comentario } = require('../models');
 
 // Página inicial exibe posts do blog
 router.get('/', async (req, res) => {

@@ -146,6 +146,60 @@ Se você deseja apenas **rodar** a aplicação sem o ambiente de desenvolvimento
 
 ---
 
+## Como acessar o ArgoCD
+
+### Pré-requisitos
+Certifique-se de que você possui os seguintes itens instalados:
+
+1. **kubectl**: Ferramenta de linha de comando para interagir com o Kubernetes.
+   - Instale com o comando:
+     ```bash
+     sudo snap install kubectl --classic
+     ```
+
+2. **Minikube** (se estiver usando um cluster local):
+   - Instale com os comandos:
+     ```bash
+     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+     sudo install minikube-linux-amd64 /usr/local/bin/minikube
+     ```
+
+3. **Acesso ao cluster Kubernetes**: Certifique-se de que o cluster está rodando e configurado corretamente.
+   - Para iniciar o Minikube:
+     ```bash
+     minikube start
+     ```
+
+### Passos para acessar o ArgoCD
+
+1. **Verifique os pods do ArgoCD**:
+   Certifique-se de que todos os pods estão no estado `Running`:
+   ```bash
+   kubectl get pods -n argocd
+   ```
+
+2. **Exponha o serviço do ArgoCD**:
+   Use o comando abaixo para expor o serviço `argocd-server` localmente:
+   ```bash
+   kubectl port-forward svc/argocd-server -n argocd 8080:443
+   ```
+
+3. **Acesse o painel do ArgoCD**:
+   Abra o navegador e acesse o painel no endereço:
+   [https://localhost:8080](https://localhost:8080)
+
+4. **Faça login no ArgoCD**:
+   - **Usuário:** `admin`
+   - **Senha:** Para obter a senha inicial, use o comando abaixo:
+     ```bash
+     kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d
+     ```
+
+5. **Sincronize as aplicações**:
+   Após fazer login, localize as aplicações `ivodocker-dev` e `ivodocker-prod` no painel e clique em **Sync** para sincronizá-las com o cluster Kubernetes.
+
+---
+
 ### 🧑‍💻 Autores
 * **Paulo Henrique Junio dos Santos Lima**
 * **Lucas Pereira de Araujo**

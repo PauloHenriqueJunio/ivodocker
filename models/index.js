@@ -13,8 +13,8 @@ Post.belongsTo(Usuario, { foreignKey: 'usuarioId', as: 'Usuario' });
 Usuario.hasMany(Post, { foreignKey: 'usuarioId', as: 'Posts' });
 
 // Associações para Comentário
-Comentario.belongsTo(Post, { foreignKey: 'postId' });
-Post.hasMany(Comentario, { foreignKey: 'postId' });
+Comentario.belongsTo(Post);
+Post.hasMany(Comentario);
 
 Comentario.belongsTo(Usuario, { foreignKey: 'usuarioId' });
 Usuario.hasMany(Comentario, { foreignKey: 'usuarioId' });
