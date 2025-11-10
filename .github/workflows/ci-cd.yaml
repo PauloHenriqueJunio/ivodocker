@@ -63,18 +63,18 @@ jobs:
       - name: Update Helm chart image tag
         run: |
           # USA O NOME EM MINÚSCULAS AQUI TAMBÉM!
-          sed -i "s|repository:.*|repository: ${{ steps.image_name.outputs.name }}|" helm/ivodocker-chart/values.yaml
-          sed -i "s|tag:.*|tag: ${{ steps.image_tag.outputs.tag }}|" helm/ivodocker-chart/values.yaml
+          sed -i "s|repository:.*|repository: ${{ steps.image_name.outputs.name }}|" helm/ivodocker-chart/values.yaml helm/ivodocker-chart/values-dev.yaml helm/ivodocker-chart/values-prod.yaml || true
+          sed -i "s|tag:.*|tag: ${{ steps.image_tag.outputs.tag }}|" helm/ivodocker-chart/values.yaml helm/ivodocker-chart/values-dev.yaml helm/ivodocker-chart/values-prod.yaml || true
 
       # 9. Commit e Push da atualização do Helm
       - name: Commit e Push da atualização do Helm
         run: |
           git config --global user.name 'GitHub Actions Bot'
           git config --global user.email 'actions@github.com'
-          git add helm/ivodocker-chart/values.yaml
+          git add helm/ivodocker-chart/values.yaml helm/ivodocker-chart/values-dev.yaml helm/ivodocker-chart/values-prod.yaml || true
           if ! git diff --staged --quiet; then
             git commit -m "Atualiza a imagem para ${{ steps.image_name.outputs.name }}:${{ steps.image_tag.outputs.tag }} [skip ci]"
             git push
           else
-            echo "Nenhuma mudança no values.yaml para commitar."
+            echo "Nenhuma mudança nos values para commitar."
           fi
