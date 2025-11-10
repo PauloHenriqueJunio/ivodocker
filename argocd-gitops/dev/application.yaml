@@ -7,8 +7,11 @@ spec:
   project: default
   source:
     repoURL: https://github.com/PauloHenriqueJunio/ivodocker
-    targetRevision: HEAD
+    targetRevision: teste-argo-cd
     path: helm/ivodocker-chart
+    helm:
+      valueFiles:
+        - values-dev.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
