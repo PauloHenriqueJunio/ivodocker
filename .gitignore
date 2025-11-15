@@ -12,3 +12,5 @@ Thumbs.db
 .gitignore.remote
 
 minikube-linux-amd64
+
+argocd-rbaca-cm.yaml
