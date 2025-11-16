@@ -10,6 +10,10 @@ service:
   type: ClusterIP
   port: 3000
 
+# Caso a imagem no GHCR seja privada, liste aqui os imagePullSecrets
+imagePullSecrets:
+  - name: ghcr-creds
+
 database:
   host: "mysql-ivodocker"
   name: "ivodocker_db"
