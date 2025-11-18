@@ -6,6 +6,8 @@ metadata:
     {{- include "ivodocker-chart.labels" . | nindent 4 }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation
 spec:
   template:
     spec:
