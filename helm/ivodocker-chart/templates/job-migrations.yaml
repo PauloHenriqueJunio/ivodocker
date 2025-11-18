@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "ivodocker-chart.fullname" . }}-migrations
+  labels:
+    {{- include "ivodocker-chart.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: migrations
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          
+          command:
+            - npx
+            - sequelize-cli
+            - db:migrate
+            - --config
+            - config/config.js
+          
+          env:
+            - name: NODE_ENV
+              value: "production"
+          
+          envFrom:
+            - secretRef:
+                name: {{ include "ivodocker-chart.fullname" . }}-db-credentials
+
+          volumeMounts:
+            - name: sequelize-config
+              mountPath: /usr/src/app/config
+              readOnly: true
+      
+      volumes:
+        - name: sequelize-config
+          configMap:
+            name: sequelize-config
