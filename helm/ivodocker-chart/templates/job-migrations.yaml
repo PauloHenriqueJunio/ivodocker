@@ -17,12 +17,15 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
 
-          # ESTA É A PARTE MAIS IMPORTANTE:
-          # Em vez de rodar o comando padrão da imagem, nós o substituímos
-          # para executar apenas a migração do banco de dados.
-          command: ["npx", "sequelize-cli", "db:migrate"]
+          
+          command:
+            - npx
+            - sequelize-cli
+            - db:migrate
+            - --config
+            - config/config.js
 
-          # O Job também precisa das credenciais do banco para se conectar!
+          
           envFrom:
             - secretRef:
                 name: {{ include "ivodocker-chart.fullname" . }}-db-credentials
