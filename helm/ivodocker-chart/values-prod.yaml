@@ -1,6 +1,5 @@
-replicaCount: 2
+replicaCount: 1
 
-# Image para produção. CI irá escrever a tag exata quando publicar a imagem.
 image:
   repository: ghcr.io/paulohenriquejunio/ivodocker
   pullPolicy: IfNotPresent
@@ -10,13 +9,8 @@ service:
   type: ClusterIP
   port: 3000
 
-# Caso a imagem no GHCR seja privada, liste aqui os imagePullSecrets
-imagePullSecrets:
-  - name: ghcr-creds
-
 database:
-  host: "mysql-ivodocker"
-  name: "ivodocker_db"
+  host: "mysql-prod"         # serviço do banco em prod
+  name: "ivodocker_prod"
   user: "root"
-  # Senha de produção (aqui apenas ilustrativa conforme solicitado)
-  password: "prod_password"
+  password: "password"

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-dev
+  namespace: dev
+spec:
+  selector:
+    app.kubernetes.io/instance: mysql-innodbcluster-mysql-dev-mysql-server
+  ports:
+    - port: 3306
+      targetPort: 3306
+      name: mysql
