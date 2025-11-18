@@ -24,6 +24,10 @@ spec:
             - --config
             - config/config.js
           
+          env:
+            - name: NODE_ENV
+              value: "production"
+          
           envFrom:
             - secretRef:
                 name: {{ include "ivodocker-chart.fullname" . }}-db-credentials
