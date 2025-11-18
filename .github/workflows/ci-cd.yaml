@@ -6,7 +6,7 @@ name: CI/CD - Build and Push Docker Image
 on:
   push:
     branches:
-      - "teste-argo-cd"
+      - "main"
 
 jobs:
   build-push-update:
