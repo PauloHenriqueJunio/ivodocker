@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/paulohenriquejunio/ivodocker
   pullPolicy: IfNotPresent
-  tag: cc5fb06
+  tag: b5e6db7
 
 service:
   type: ClusterIP
