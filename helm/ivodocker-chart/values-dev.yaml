@@ -10,7 +10,7 @@ service:
   port: 3000
 
 dbCredentials:
-  DB_HOST: "mysql-prod"
+  DB_HOST: "mysql-dev"
   DB_USER: "root"
   DB_PASSWORD: "MyR00tP@ssw0rd"
-  DB_NAME: "ivodocker_prod"
+  DB_NAME: "ivodocker_dev"
