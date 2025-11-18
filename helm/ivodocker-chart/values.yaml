@@ -6,7 +6,7 @@ replicaCount: 1
 image:
   repository: ghcr.io/paulohenriquejunio/ivodocker
   pullPolicy: IfNotPresent
-  tag: b5e6db7
+  tag: 2a0abf2
 
 # Configurações do serviço que expõe a aplicação dentro do cluster
 service:
