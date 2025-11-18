@@ -10,7 +10,7 @@ service:
   port: 3000
 
 database:
-  host: "mysql-prod"         # serviço do banco em prod
+  host: "mysql-prod"
   name: "ivodocker_prod"
   user: "root"
   password: "password"

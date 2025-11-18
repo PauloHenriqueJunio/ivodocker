@@ -10,7 +10,7 @@ service:
   port: 3000
 
 database:
-  host: "mysql-dev"          # serviço do banco criado pelo operador
+  host: "mysql-dev"
   name: "ivodocker_dev"
   user: "root"
   password: "password"

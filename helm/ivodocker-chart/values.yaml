@@ -1,23 +1,16 @@
-# helm/ivodocker-chart/values.yaml
-
 replicaCount: 1
 
-# Detalhes da imagem Docker
 image:
   repository: ghcr.io/paulohenriquejunio/ivodocker
   pullPolicy: IfNotPresent
   tag: 0a5cf6b
 
-# Configurações do serviço que expõe a aplicação dentro do cluster
 service:
   type: ClusterIP
   port: 3000
 
-# Configurações do banco de dados que serão usadas para criar o Secret
 database:
-  host: "mysql-ivodocker" # Nome do serviço do banco de dados que o operador vai criar
+  host: "mysql-ivodocker"
   name: "ivodocker_db"
   user: "root"
-  # ATENÇÃO: Como pedido na atividade, colocamos a senha aqui.
-  # Em um cenário de produção real, usaríamos uma ferramenta como o Vault.
   password: "password"
