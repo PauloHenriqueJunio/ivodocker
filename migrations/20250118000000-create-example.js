@@ -31,4 +31,4 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('users');
   }
-}; // teste test teste
+}; // testando o ci/cd do argocd

@@ -5,10 +5,12 @@
 ### 1. Job de Migrations Corrigido ✅
 
 **Problemas identificados:**
+
 - ConfigMap `sequelize-config` não existia
 - Faltava verificação se MySQL estava pronto
 
 **Correções aplicadas:**
+
 - ✅ Removido volume do ConfigMap inexistente
 - ✅ Adicionado wait para MySQL estar pronto antes de rodar migrations
 - ✅ Adicionado `backoffLimit: 3` para retry automático
@@ -20,9 +22,11 @@
 ### 2. Senhas Movidas para Secrets ✅
 
 **Problemas identificados:**
+
 - Senhas hardcoded no `values.yaml` commitadas no Git
 
 **Correções aplicadas:**
+
 - ✅ Senhas alteradas para placeholder `"CHANGE_ME"` nos values
 - ✅ Secret.yaml tornado opcional (`createSecret: true/false`)
 - ✅ Documentação completa criada em `SECRETS-CONFIG.md`
@@ -30,6 +34,7 @@
 **Como usar:**
 
 **Opção A: Criar secrets manualmente no cluster (RECOMENDADO)**
+
 ```bash
 # DEV
 kubectl create secret generic ivodocker-dev-ivodocker-chart-db-credentials \
@@ -51,6 +56,7 @@ kubectl create secret generic ivodocker-prod-ivodocker-chart-db-credentials \
 Depois set `createSecret: false` nos values para usar o secret externo.
 
 **Opção B: Manter criação pelo Helm (para dev)**
+
 ```bash
 helm upgrade --install ivodocker-dev ./helm/ivodocker-chart \
   -f helm/ivodocker-chart/values-dev.yaml \
@@ -60,6 +66,7 @@ helm upgrade --install ivodocker-dev ./helm/ivodocker-chart \
 ```
 
 **Arquivos modificados:**
+
 - `helm/ivodocker-chart/templates/secret.yaml` - Tornado opcional
 - `helm/ivodocker-chart/values*.yaml` - Senhas alteradas para CHANGE_ME
 - `SECRETS-CONFIG.md` - Documentação completa
@@ -67,10 +74,12 @@ helm upgrade --install ivodocker-dev ./helm/ivodocker-chart \
 ### 3. CI/CD Workflow Corrigido ✅
 
 **Problema identificado:**
+
 - Workflow só rodava na branch `main`
 - Commits na `teste-argo-cd` não disparavam CI/CD
 
 **Correção aplicada:**
+
 - ✅ Adicionada branch `teste-argo-cd` ao trigger
 
 ```yaml
@@ -141,6 +150,7 @@ kubectl logs -n prod job/ivodocker-prod-ivodocker-chart-migrations
 ### 5. Testar CI/CD
 
 Faça uma mudança qualquer e commite:
+
 ```bash
 echo "# Test" >> README.md
 git add README.md
@@ -168,10 +178,12 @@ Acompanhe em: https://github.com/PauloHenriqueJunio/ivodocker/actions
 ## 📚 Arquivos Criados/Modificados
 
 ### Novos Arquivos
+
 - ✅ `SECRETS-CONFIG.md` - Documentação de gerenciamento de secrets
 - ✅ `CORRECOES.md` - Este arquivo
 
 ### Arquivos Modificados
+
 - ✅ `helm/ivodocker-chart/templates/job-migrations.yaml` - Job corrigido
 - ✅ `helm/ivodocker-chart/templates/secret.yaml` - Tornado opcional
 - ✅ `helm/ivodocker-chart/values.yaml` - Adicionado createSecret
