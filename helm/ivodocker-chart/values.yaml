@@ -9,6 +9,8 @@ service:
   type: ClusterIP
   port: 3000
 
+createSecret: true
+
 database:
   host: "mysql-ivodocker"
   name: "ivodocker_db"

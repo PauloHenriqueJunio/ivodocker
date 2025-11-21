@@ -5,10 +5,12 @@
 ### ✅ Tarefas Concluídas
 
 1. **Argo Rollouts Controller Instalado**
+
    - Controller rodando no namespace `argo-rollouts`
    - CRDs instaladas (Rollout, AnalysisTemplate, etc)
 
 2. **Ambiente DEV - BlueGreen**
+
    - ✅ Rollout configurado com estratégia BlueGreen
    - ✅ Auto-promoção DESABILITADA (manual)
    - ✅ Services criados: `ivodocker-dev-active` e `ivodocker-dev-preview`
@@ -25,6 +27,7 @@
 ## 📋 Verificação
 
 ### Rollouts Ativos
+
 ```bash
 $ kubectl get rollouts --all-namespaces
 NAMESPACE   NAME             DESIRED   CURRENT   UP-TO-DATE   AVAILABLE
@@ -35,11 +38,13 @@ prod        ivodocker-prod   3         3         3            3
 ### Services Criados
 
 **DEV:**
+
 - `ivodocker-dev-active` (versão em produção)
 - `ivodocker-dev-preview` (versão para testes)
 - `ivodocker-dev-ivodocker-chart` (service original do Helm)
 
 **PROD:**
+
 - `ivodocker-prod-stable` (versão estável)
 - `ivodocker-prod-canary` (versão canary)
 - `ivodocker-prod-ivodocker-chart` (service original do Helm)
@@ -51,6 +56,7 @@ prod        ivodocker-prod   3         3         3            3
 ### Para Apresentação - Recomendação
 
 **Opção 1: Dashboard Web (Visual)**
+
 ```bash
 # Instalar plugin primeiro (ver TESTE-ROLLOUTS.md)
 kubectl argo rollouts dashboard
@@ -58,6 +64,7 @@ kubectl argo rollouts dashboard
 ```
 
 **Opção 2: CLI com Watch**
+
 ```bash
 # DEV
 kubectl get rollout ivodocker-dev -n dev -w
@@ -69,6 +76,7 @@ kubectl get rollout ivodocker-prod -n prod -w
 ### Comandos Principais
 
 **DEV (BlueGreen) - Promoção Manual**
+
 ```bash
 # Ver status
 kubectl describe rollout ivodocker-dev -n dev
@@ -78,6 +86,7 @@ kubectl patch rollout ivodocker-dev -n dev --type merge -p '{"status":{"verifyin
 ```
 
 **PROD (Canary) - Controle de Tráfego**
+
 ```bash
 # Ver status
 kubectl describe rollout ivodocker-prod -n prod
@@ -91,12 +100,14 @@ kubectl describe rollout ivodocker-prod -n prod
 ## 📁 Arquivos Criados/Modificados
 
 ### Novos Arquivos
+
 - `helm/ivodocker-chart/templates/rollout.yaml` - Template do Rollout
 - `ARGO-ROLLOUTS.md` - Documentação completa
 - `TESTE-ROLLOUTS.md` - Guia rápido de teste
 - `RESUMO-IMPLEMENTACAO.md` - Este arquivo
 
 ### Arquivos Modificados
+
 - `helm/ivodocker-chart/templates/deployment.yaml` - Condicional (desabilitado quando rollout ativo)
 - `helm/ivodocker-chart/templates/service.yaml` - Adicionado preview service para BlueGreen
 - `helm/ivodocker-chart/values.yaml` - Configurações base do rollout
@@ -110,6 +121,7 @@ kubectl describe rollout ivodocker-prod -n prod
 ### Cenário 1: BlueGreen (DEV)
 
 1. **Mostrar configuração atual**
+
    ```bash
    kubectl describe rollout ivodocker-dev -n dev | grep -A 10 "Strategy:"
    ```
@@ -117,6 +129,7 @@ kubectl describe rollout ivodocker-prod -n prod
 2. **Fazer uma mudança no código** (ex: alterar mensagem em uma rota)
 
 3. **Commitar e aguardar CI/CD**
+
    ```bash
    git add .
    git commit -m "test: mudança para demo BlueGreen"
@@ -124,11 +137,13 @@ kubectl describe rollout ivodocker-prod -n prod
    ```
 
 4. **Acompanhar deployment**
+
    ```bash
    kubectl get rollout ivodocker-dev -n dev -w
    ```
 
 5. **Testar preview** (enquanto não promove)
+
    ```bash
    kubectl port-forward service/ivodocker-dev-preview 3001:80 -n dev
    # Acessar http://localhost:3001
@@ -140,6 +155,7 @@ kubectl describe rollout ivodocker-prod -n prod
 ### Cenário 2: Canary (PROD)
 
 1. **Mostrar configuração de steps**
+
    ```bash
    kubectl describe rollout ivodocker-prod -n prod | grep -A 20 "Steps:"
    ```
@@ -147,6 +163,7 @@ kubectl describe rollout ivodocker-prod -n prod
 2. **Fazer deploy de nova versão**
 
 3. **Demonstrar controle de tráfego**
+
    - 20% inicial (pausa manual)
    - Promover para 40%, 60%, 80%
    - Completar para 100%
@@ -170,11 +187,13 @@ kubectl describe rollout ivodocker-prod -n prod
 ## ⚠️ Observações Importantes
 
 ### BlueGreen (DEV)
+
 - **Auto-promoção está DESABILITADA** conforme solicitado
 - Preview fica disponível até promoção manual
 - Após promoção, versão antiga é removida após 30 segundos
 
 ### Canary (PROD)
+
 - Primeira pausa (20%) é **manual** (pause: {})
 - Pausas seguintes são automáticas com 30s de duração
 - Permite ajuste manual de tráfego durante rollout

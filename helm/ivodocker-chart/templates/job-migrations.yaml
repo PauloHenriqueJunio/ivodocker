@@ -6,8 +6,11 @@ metadata:
     {{- include "ivodocker-chart.labels" . | nindent 4 }}
   annotations:
     argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
 spec:
   ttlSecondsAfterFinished: 3600
+  backoffLimit: 3
   template:
     spec:
       restartPolicy: OnFailure
@@ -16,12 +19,16 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           
-          command:
-            - npx
-            - sequelize-cli
-            - db:migrate
-            - --config
-            - config/config.js
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Aguardando MySQL estar pronto..."
+              until nc -z $DB_HOST 3306; do
+                echo "MySQL não está pronto - aguardando..."
+                sleep 2
+              done
+              echo "MySQL está pronto! Executando migrations..."
+              npx sequelize-cli db:migrate
           
           env:
             - name: NODE_ENV
@@ -30,13 +37,3 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ include "ivodocker-chart.fullname" . }}-db-credentials
-
-          volumeMounts:
-            - name: sequelize-config
-              mountPath: /usr/src/app/config
-              readOnly: true
-      
-      volumes:
-        - name: sequelize-config
-          configMap:
-            name: sequelize-config
