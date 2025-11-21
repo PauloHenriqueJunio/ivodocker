@@ -14,3 +14,19 @@ dbCredentials:
   DB_USER: "root"
   DB_PASSWORD: "MyR00tP@ssw0rd"
   DB_NAME: "ivodocker_prod"
+
+rollout:
+  enabled: true
+  strategy: "canary"
+  canary:
+    steps:
+      - setWeight: 20
+      - pause: {}
+      - setWeight: 40
+      - pause: { duration: 10 }
+      - setWeight: 60
+      - pause: { duration: 10 }
+      - setWeight: 80
+      - pause: { duration: 10 }
+    maxSurge: "25%"
+    maxUnavailable: 0
