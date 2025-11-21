@@ -9,12 +9,12 @@ service:
   type: ClusterIP
   port: 3000
 
-createSecret: true
+createSecret: false
 
 dbCredentials:
   DB_HOST: "mysql-prod"
   DB_USER: "root"
-  DB_PASSWORD: "MyR00tP@ssw0rd"
+  DB_PASSWORD: "CHANGE_ME"
   DB_NAME: "ivodocker_prod"
 
 rollout:
