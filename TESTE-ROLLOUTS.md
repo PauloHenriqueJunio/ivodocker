@@ -215,3 +215,5 @@ Veja `ARGO-ROLLOUTS.md` para documentação completa com todos os comandos e cen
 3. [ ] Fazer uma mudança no código para testar
 4. [ ] Demonstrar promoção manual (DEV)
 5. [ ] Demonstrar controle de tráfego (PROD)
+
+kubectl port-forward svc/argocd-server -n argocd 8080:443
