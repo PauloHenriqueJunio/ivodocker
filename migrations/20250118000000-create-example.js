@@ -32,4 +32,3 @@ module.exports = {
     await queryInterface.dropTable('users');
   }
 }; // testando o ci/cd do argocd e o novo token
-// testando novamente
