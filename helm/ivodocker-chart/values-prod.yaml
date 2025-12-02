@@ -5,20 +5,20 @@ image:
   pullPolicy: IfNotPresent
   tag: c3e3257
 
+  enabled: true
+replicaCount: 1
+
+image:
+  repository: ghcr.io/paulohenriquejunio/ivodocker
+  pullPolicy: IfNotPresent
+  tag: c3e3257
+
 service:
   type: ClusterIP
   port: 3000
 
-createSecret: false
+createSecret: true
 
-dbCredentials:
-  DB_HOST: "mysql-prod"
-  DB_USER: "root"
-  DB_PASSWORD: "CHANGE_ME"
-  DB_NAME: "ivodocker_prod"
-
-rollout:
-  enabled: true
   strategy: "canary"
   canary:
     steps:
