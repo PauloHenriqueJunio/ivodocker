@@ -2,10 +2,10 @@
 
 name: CI/CD - Build and Push Docker Image
 
-# Gatilho: Este workflow roda a cada 'push' na branch 'main'
 on:
   push:
     branches:
+      - "main"
       - "teste-argo-cd"
 
 jobs:
@@ -13,26 +13,20 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     permissions:
-      contents: write # Permissão para o job escrever de volta no repositório
-      packages: write # Permissão para o job publicar imagens no ghcr.io
-
+      contents: write
+      packages: write
     steps:
-      # 1. Baixa o código do seu repositório para o ambiente do robô
       - name: Checkout do Repositório
         uses: actions/checkout@v4
         with:
-          # Precisamos de um token especial para poder fazer push de volta
           token: ${{ secrets.TOKEN_IVO }}
 
-      # 2. Configura o QEMU (necessário para construir imagens multi-plataforma, boa prática)
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
-      # 3. Configura o Docker Buildx (ferramenta de build avançada)
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 4. Faz o login no GitHub Container Registry (ghcr.io)
       - name: Login to ghcr.io
         uses: docker/login-action@v3
         with:
@@ -40,41 +34,34 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # 5. Gera a tag única para a nova imagem Docker
       - name: Generate image tag
         id: image_tag
         run: echo "tag=$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_OUTPUT
 
-      # 6. Constrói e envia a imagem Docker para o ghcr.io
       - name: Define o nome da imagem em minúsculas
         id: image_name
         run: echo "name=$(echo ghcr.io/${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
 
-      # 7. Constrói e envia a imagem Docker, agora usando o nome em minúsculas
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          # USA A VARIÁVEL CRIADA NO PASSO ANTERIOR
           tags: ${{ steps.image_name.outputs.name }}:${{ steps.image_tag.outputs.tag }}
 
-      # 8. Atualiza o arquivo values.yaml
       - name: Update Helm chart image tag
         run: |
-          # USA O NOME EM MINÚSCULAS AQUI TAMBÉM!
-          sed -i "s|repository:.*|repository: ${{ steps.image_name.outputs.name }}|" helm/ivodocker-chart/values.yaml
-          sed -i "s|tag:.*|tag: ${{ steps.image_tag.outputs.tag }}|" helm/ivodocker-chart/values.yaml
+          sed -i "s|repository:.*|repository: ${{ steps.image_name.outputs.name }}|" helm/ivodocker-chart/values.yaml helm/ivodocker-chart/values-dev.yaml helm/ivodocker-chart/values-prod.yaml || true
+          sed -i "s|tag:.*|tag: ${{ steps.image_tag.outputs.tag }}|" helm/ivodocker-chart/values.yaml helm/ivodocker-chart/values-dev.yaml helm/ivodocker-chart/values-prod.yaml || true
 
-      # 9. Commit e Push da atualização do Helm
       - name: Commit e Push da atualização do Helm
         run: |
           git config --global user.name 'GitHub Actions Bot'
           git config --global user.email 'actions@github.com'
-          git add helm/ivodocker-chart/values.yaml
+          git add helm/ivodocker-chart/values.yaml helm/ivodocker-chart/values-dev.yaml helm/ivodocker-chart/values-prod.yaml || true
           if ! git diff --staged --quiet; then
             git commit -m "Atualiza a imagem para ${{ steps.image_name.outputs.name }}:${{ steps.image_tag.outputs.tag }} [skip ci]"
             git push
           else
-            echo "Nenhuma mudança no values.yaml para commitar."
+            echo "Nenhuma mudança nos values para commitar."
           fi

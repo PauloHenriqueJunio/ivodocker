@@ -1,18 +1,34 @@
-replicaCount: 2
+replicaCount: 1
 
-# Image para produção. CI irá escrever a tag exata quando publicar a imagem.
 image:
   repository: ghcr.io/paulohenriquejunio/ivodocker
   pullPolicy: IfNotPresent
-  tag: "prod"
+  tag: 0e65397
+
+  enabled: true
+replicaCount: 1
+
+image:
+  repository: ghcr.io/paulohenriquejunio/ivodocker
+  pullPolicy: IfNotPresent
+  tag: 0e65397
 
 service:
   type: ClusterIP
   port: 3000
 
-database:
-  host: "mysql-ivodocker"
-  name: "ivodocker_db"
-  user: "root"
-  # Senha de produção (aqui apenas ilustrativa conforme solicitado)
-  password: "prod_password"
+createSecret: true
+
+  strategy: "canary"
+  canary:
+    steps:
+      - setWeight: 20
+      - pause: {}
+      - setWeight: 40
+      - pause: { duration : 10 }
+      - setWeight: 60
+      - pause: { duration: 10 }
+      - setWeight: 80
+      - pause: { duration: 10 }
+    maxSurge: "25%"
+    maxUnavailable: 0
