@@ -27,9 +27,8 @@ rollout:
       - setWeight: 40
       - pause: { duration : 10 }
       - setWeight: 60
-      - pause: { duration: 7 }
+      - pause: { duration: 10 }
       - setWeight: 80
-      - pause: { duration: 15 }
-      - setWeight: 100
+      - pause: { duration: 10 }
     maxSurge: "25%"
     maxUnavailable: 0
