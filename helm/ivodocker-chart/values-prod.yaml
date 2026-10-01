@@ -5,27 +5,29 @@ image:
   pullPolicy: IfNotPresent
   tag: 0e65397
 
-  enabled: true
-replicaCount: 1
-
-image:
-  repository: ghcr.io/paulohenriquejunio/ivodocker
-  pullPolicy: IfNotPresent
-  tag: 0e65397
-
 service:
   type: ClusterIP
   port: 3000
 
+# O Secret de credenciais e criado pelo Helm em prod (commit a02a233).
+# A senha real deve ser informada fora do Git (ver SECRETS-CONFIG.md).
 createSecret: true
 
+dbCredentials:
+  DB_HOST: "mysql-prod"
+  DB_USER: "root"
+  DB_PASSWORD: "CHANGE_ME"
+  DB_NAME: "ivodocker_prod"
+
+rollout:
+  enabled: true
   strategy: "canary"
   canary:
     steps:
       - setWeight: 20
       - pause: {}
       - setWeight: 40
-      - pause: { duration : 10 }
+      - pause: { duration: 10 }
       - setWeight: 60
       - pause: { duration: 10 }
       - setWeight: 80
