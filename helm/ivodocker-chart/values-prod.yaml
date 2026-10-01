@@ -9,15 +9,7 @@ service:
   type: ClusterIP
   port: 3000
 
-# O Secret de credenciais e criado pelo Helm em prod (commit a02a233).
-# A senha real deve ser informada fora do Git (ver SECRETS-CONFIG.md).
-createSecret: true
-
-dbCredentials:
-  DB_HOST: "mysql-prod"
-  DB_USER: "root"
-  DB_PASSWORD: "CHANGE_ME"
-  DB_NAME: "ivodocker_prod"
+createSecret: false
 
 rollout:
   enabled: true
