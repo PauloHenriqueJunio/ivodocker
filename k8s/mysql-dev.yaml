@@ -1,0 +1,13 @@
+apiVersion: mysql.oracle.com/v2
+kind: InnoDBCluster
+metadata:
+  name: mysql-dev
+  namespace: dev
+spec:
+  secretName: mysql-secret
+  tlsUseSelfSigned: true
+  instances: 1
+  router:
+    instances: 1
+  imagePullPolicy: IfNotPresent
+  edition: community

@@ -1,6 +1,6 @@
-{{- if not .Values.rollout.enabled }}
-apiVersion: apps/v1
-kind: Deployment
+{{- if .Values.rollout.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: {{ include "ivodocker-chart.fullname" . }}
   labels:
@@ -9,6 +9,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   replicas: {{ .Values.replicaCount }}
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       {{- include "ivodocker-chart.selectorLabels" . | nindent 6 }}
@@ -47,7 +48,7 @@ spec:
           envFrom:
           - secretRef:
               name: {{ include "ivodocker-chart.fullname" . }}-db-credentials
-      {{- with .Values.livenessProbe }}
+          {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
@@ -79,4 +80,27 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+  {{- if eq .Values.rollout.strategy "blueGreen" }}
+  strategy:
+    blueGreen:
+      activeService: {{ include "ivodocker-chart.fullname" . }}
+      previewService: {{ include "ivodocker-chart.fullname" . }}-preview
+      autoPromotionEnabled: {{ .Values.rollout.blueGreen.autoPromotionEnabled }}
+      {{- with .Values.rollout.blueGreen.scaleDownDelaySeconds }}
+      scaleDownDelaySeconds: {{ . }}
+      {{- end }}
+  {{- else if eq .Values.rollout.strategy "canary" }}
+  strategy:
+    canary:
+      {{- with .Values.rollout.canary.steps }}
+      steps:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.rollout.canary.maxSurge }}
+      maxSurge: {{ . }}
+      {{- end }}
+      {{- with .Values.rollout.canary.maxUnavailable }}
+      maxUnavailable: {{ . }}
+      {{- end }}
+  {{- end }}
 {{- end }}

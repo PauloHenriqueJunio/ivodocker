@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
 const dotenv = require('dotenv');
 
-// Carrega no .env as variaveis de ambiente
+
 dotenv.config();
 
 const sequelize = new Sequelize(
@@ -11,7 +11,7 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST,
         dialect: 'mysql',
-        logging: false, // true para ver os logs do SQL
+        logging: false, 
     }
 );
 
